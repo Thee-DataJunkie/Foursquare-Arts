@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FourSquare JAMB CBT — UTME Mock Examination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #060d1a;
+    --bg-card: #0d1b2e;
+    --bg-panel: #0a1525;
+    --bg-input: #0f1e33;
+    --border: #1a3050;
+    --border-glow: #1e4a7a;
+    --accent: #2563eb;
+    --accent-bright: #3b82f6;
+    --accent-glow: rgba(37,99,235,0.25);
+    --accent-soft: #1d4ed8;
+    --gold: #f59e0b;
+    --gold-soft: rgba(245,158,11,0.15);
+    --danger: #ef4444;
+    --danger-soft: rgba(239,68,68,0.15);
+    --success: #22c55e;
+    --success-soft: rgba(34,197,94,0.12);
+    --text-primary: #e2eeff;
+    --text-secondary: #7aaddb;
+    --text-muted: #3d6080;
+    --tab-active: #2563eb;
+    --radius: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── STARFIELD BG ─── */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, rgba(37,99,235,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(37,99,235,0.05) 0%, transparent 70%);
+    pointer-events:none;
+  }
+
+  /* ══════════════════════════════
+     SETUP SCREEN
+  ══════════════════════════════ */
+  #setup-screen {
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:40px 20px;
+  }
+
+  .setup-logo {
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:8px;
+  }
+  .setup-logo .logo-icon {
+    width:52px; height:52px; border-radius:14px;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; box-shadow:0 0 24px rgba(37,99,235,0.4);
+  }
+  .setup-logo .brand {
+    font-size:22px; font-weight:700; letter-spacing:-0.5px;
+  }
+  .setup-logo .brand span { color: var(--accent-bright); }
+
+  .setup-subtitle { color:var(--text-secondary); font-size:13px; margin-bottom:36px; }
+
+  .setup-card {
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:40px;
+    width:100%; max-width:520px;
+    box-shadow: var(--shadow), 0 0 60px rgba(37,99,235,0.06);
+  }
+
+  .setup-title {
+    text-align:center;
+    font-size:28px; font-weight:800;
+    letter-spacing:-1px;
+    margin-bottom:6px;
+  }
+  .setup-title span { color:var(--accent-bright); }
+
+  .setup-desc {
+    text-align:center; color:var(--text-secondary);
+    font-size:13.5px; line-height:1.7; margin-bottom:32px;
+  }
+
+  .section-label {
+    font-size:11px; font-weight:700; letter-spacing:2px;
+    color:var(--text-muted); text-transform:uppercase;
+    border-left:3px solid var(--accent);
+    padding-left:10px; margin-bottom:14px;
+  }
+
+  .name-input {
+    width:100%;
+    background:var(--bg-input);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:14px 18px;
+    font-size:15px; font-family:'Sora',sans-serif;
+    color:var(--text-primary);
+    outline:none; transition:border-color .2s, box-shadow .2s;
+    margin-bottom:28px;
+  }
+  .name-input:focus {
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-glow);
+  }
+  .name-input::placeholder { color:var(--text-muted); }
+
+  .compulsory-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--bg-input);
+    border:1.5px solid var(--accent);
+    border-radius:10px; padding:12px 18px;
+    font-size:14px; font-weight:600;
+    color:var(--text-primary);
+    width:100%; margin-bottom:14px;
+  }
+  .badge-compulsory {
+    background:var(--accent);
+    color:#fff; font-size:10px; font-weight:700;
+    letter-spacing:1px; padding:3px 8px; border-radius:6px;
+    margin-left:auto;
+  }
+
+  .subjects-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    margin-bottom:16px;
+  }
+
+  .subject-btn {
+    background:var(--bg-input);
+    border:1.5px solid var(--border);
+    border-radius:10px; padding:13px 16px;
+    font-size:13.5px; font-family:'Sora',sans-serif;
+    color:var(--text-secondary); cursor:pointer;
+    transition:all .2s;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .subject-btn:hover { border-color:var(--accent-bright); color:var(--text-primary); }
+  .subject-btn.selected {
+    border-color:var(--accent);
+    background:rgba(37,99,235,0.12);
+    color:var(--text-primary);
+  }
+  .subject-btn .check { font-size:16px; opacity:0; transition:.2s; }
+  .subject-btn.selected .check { opacity:1; color:var(--accent-bright); }
+
+  .selected-count {
+    font-size:13px; color:var(--text-secondary);
+    margin-bottom:20px;
+  }
+  .selected-count strong { color:var(--accent-bright); }
+
+  .exam-stats {
+    display:grid; grid-template-columns:1fr 1fr 1fr;
+    border:1.5px solid var(--border);
+    border-radius:10px; overflow:hidden; margin-bottom:20px;
+  }
+  .stat { text-align:center; padding:16px 8px; }
+  .stat:not(:last-child) { border-right:1px solid var(--border); }
+  .stat .val { font-size:22px; font-weight:800; color:var(--accent-bright); }
+  .stat .lbl { font-size:11px; letter-spacing:1px; color:var(--text-muted); margin-top:2px; }
+
+  .rules-box {
+    background:var(--gold-soft);
+    border:1.5px solid rgba(245,158,11,0.3);
+    border-radius:10px; padding:16px 18px;
+    font-size:13px; color:#fbbf24; line-height:1.7;
+    margin-bottom:24px;
+  }
+  .rules-box strong { display:flex; align-items:center; gap:6px; margin-bottom:6px; font-size:13px; }
+
+  .begin-btn {
+    width:100%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-soft));
+    border:none; border-radius:10px;
+    padding:16px; font-size:15px; font-weight:700;
+    font-family:'Sora',sans-serif; color:#fff;
+    cursor:pointer; letter-spacing:0.5px;
+    transition:all .2s; box-shadow:0 4px 20px rgba(37,99,235,0.35);
+  }
+  .begin-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(37,99,235,0.5); }
+  .begin-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+  /* ══════════════════════════════
+     EXAM SCREEN
+  ══════════════════════════════ */
+  #exam-screen { display:none; position:relative; z-index:1; min-height:100vh; flex-direction:column; }
+
+  /* Topbar */
+  .topbar {
+    height:54px;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 24px; position:sticky; top:0; z-index:100;
+  }
+  .topbar-brand { font-size:15px; font-weight:700; letter-spacing:-0.3px; }
+  .topbar-brand span { color:var(--accent-bright); }
+  .topbar-candidate {
+    background:var(--bg-input); border:1px solid var(--border);
+    padding:6px 14px; border-radius:20px; font-size:13px;
+    color:var(--text-secondary);
+  }
+  .topbar-candidate strong { color:var(--text-primary); }
+  .timer-box {
+    background:var(--accent);
+    border-radius:10px; padding:8px 18px;
+    font-family:'Space Mono',monospace; font-size:18px; font-weight:700;
+    color:#fff; letter-spacing:2px;
+    box-shadow:0 0 16px rgba(37,99,235,0.4);
+    transition:background .5s;
+  }
+  .timer-box.warning { background:var(--gold); box-shadow:0 0 16px rgba(245,158,11,0.4); }
+  .timer-box.danger { background:var(--danger); box-shadow:0 0 16px rgba(239,68,68,0.4); animation:pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+  /* Subject tabs */
+  .subject-tabs {
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+    display:flex; padding:0 24px; overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .subject-tabs::-webkit-scrollbar { display:none; }
+  .tab {
+    padding:14px 20px; font-size:13px; font-weight:600;
+    color:var(--text-muted); cursor:pointer;
+    border-bottom:2px solid transparent; white-space:nowrap;
+    transition:all .2s;
+  }
+  .tab:hover { color:var(--text-secondary); }
+  .tab.active { color:var(--accent-bright); border-bottom-color:var(--accent-bright); }
+  .tab .q-count { font-size:11px; font-weight:400; display:block; margin-top:1px; }
+
+  /* Main layout */
+  .exam-body {
+    display:grid; grid-template-columns:1fr 300px;
+    flex:1; gap:0; align-items:start;
+    padding:0;
+  }
+  @media(max-width:900px){ .exam-body { grid-template-columns:1fr; } .side-panel { display:none; } }
+
+  /* Question panel */
+  .q-panel {
+    padding:28px 32px; min-height:calc(100vh - 120px);
+    border-right:1px solid var(--border);
+  }
+
+  .q-meta {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:24px;
+  }
+  .q-label { font-size:14px; color:var(--text-secondary); }
+  .q-label strong { color:var(--text-primary); }
+  .flag-btn {
+    background:transparent; border:1.5px solid var(--border);
+    border-radius:8px; padding:7px 14px; font-size:12.5px;
+    font-family:'Sora',sans-serif; color:var(--text-secondary);
+    cursor:pointer; display:flex; align-items:center; gap:6px; transition:all .2s;
+  }
+  .flag-btn:hover { border-color:var(--gold); color:var(--gold); }
+  .flag-btn.flagged { border-color:var(--gold); color:var(--gold); background:var(--gold-soft); }
+
+  .q-text {
+    font-size:16px; line-height:1.8; color:var(--text-primary);
+    margin-bottom:30px; background:var(--bg-card);
+    border:1px solid var(--border); border-radius:12px;
+    padding:22px 24px;
+  }
+
+  .options { display:flex; flex-direction:column; gap:12px; }
+
+  .option {
+    display:flex; align-items:center; gap:16px;
+    background:var(--bg-card); border:1.5px solid var(--border);
+    border-radius:10px; padding:14px 20px; cursor:pointer;
+    transition:all .2s; color:var(--text-primary);
+  }
+  .option:hover { border-color:var(--accent-bright); background:rgba(37,99,235,0.07); }
+  .option.selected { border-color:var(--accent); background:rgba(37,99,235,0.15); }
+  .option-letter {
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid var(--border); display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:700; flex-shrink:0;
+    transition:all .2s; color:var(--text-secondary);
+  }
+  .option.selected .option-letter {
+    background:var(--accent); border-color:var(--accent); color:#fff;
+  }
+  .option-text { font-size:14.5px; line-height:1.6; }
+
+  /* Nav buttons */
+  .q-footer {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px; border-top:1px solid var(--border);
+    background:var(--bg-panel); position:sticky; bottom:0;
+  }
+  .nav-btn {
+    background:var(--bg-card); border:1.5px solid var(--border);
+    border-radius:10px; padding:11px 22px; font-size:13.5px;
+    font-family:'Sora',sans-serif; color:var(--text-secondary);
+    cursor:pointer; display:flex; align-items:center; gap:8px;
+    transition:all .2s; font-weight:600;
+  }
+  .nav-btn:hover:not(:disabled) { border-color:var(--accent-bright); color:var(--text-primary); }
+  .nav-btn:disabled { opacity:0.3; cursor:not-allowed; }
+  .nav-btn.next-btn {
+    background:linear-gradient(135deg,var(--accent),var(--accent-soft));
+    border-color:var(--accent); color:#fff;
+  }
+  .nav-btn.next-btn:hover { transform:translateX(2px); }
+  .submit-center {
+    background:linear-gradient(135deg,var(--danger),#b91c1c);
+    border:none; border-radius:10px; padding:11px 22px; font-size:13.5px;
+    font-family:'Sora',sans-serif; color:#fff; cursor:pointer;
+    font-weight:700; transition:all .2s;
+    box-shadow:0 4px 16px rgba(239,68,68,0.3);
+  }
+  .submit-center:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(239,68,68,0.45); }
+
+  /* Side panel */
+  .side-panel {
+    padding:24px 20px;
+    position:sticky; top:120px;
+  }
+
+  .progress-card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:20px; margin-bottom:16px;
+  }
+  .progress-title { font-size:11px; letter-spacing:2px; color:var(--text-muted); margin-bottom:16px; }
+  .progress-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .prog-stat { text-align:center; }
+  .prog-stat .pval { font-size:26px; font-weight:800; color:var(--accent-bright); }
+  .prog-stat .plbl { font-size:11px; letter-spacing:1px; color:var(--text-muted); }
+
+  .nav-card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:20px; margin-bottom:16px;
+  }
+  .nav-title { font-size:11px; letter-spacing:2px; color:var(--text-muted); margin-bottom:14px; }
+  .q-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:5px; }
+  .q-dot {
+    aspect-ratio:1; border-radius:6px;
+    border:1.5px solid var(--border); font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all .15s; color:var(--text-muted);
+    background:var(--bg-input);
+  }
+  .q-dot:hover { border-color:var(--accent-bright); color:var(--text-primary); }
+  .q-dot.current { border-color:var(--accent-bright); color:var(--accent-bright); background:rgba(37,99,235,0.1); }
+  .q-dot.answered { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .q-dot.flagged-dot { background:var(--gold-soft); border-color:var(--gold); color:var(--gold); }
+
+  .legend { display:flex; flex-direction:column; gap:6px; margin-top:14px; }
+  .legend-item { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-secondary); }
+  .legend-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+  .ld-answered { background:var(--accent); }
+  .ld-flagged { background:var(--gold); }
+  .ld-unanswered { background:var(--bg-input); border:1.5px solid var(--border); }
+
+  .side-submit {
+    width:100%; background:linear-gradient(135deg,var(--danger),#b91c1c);
+    border:none; border-radius:10px; padding:13px;
+    font-size:13.5px; font-weight:700; font-family:'Sora',sans-serif;
+    color:#fff; cursor:pointer; transition:all .2s;
+    box-shadow:0 4px 16px rgba(239,68,68,0.3);
+  }
+  .side-submit:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(239,68,68,0.45); }
+
+  /* ══════════════════════════════
+     RESULT SCREEN
+  ══════════════════════════════ */
+  #result-screen {
+    display:none; position:relative; z-index:1;
+    min-height:100vh; padding:40px 20px;
+    flex-direction:column; align-items:center;
+  }
+
+  .result-header {
+    text-align:center; margin-bottom:32px;
+  }
+  .result-header h1 { font-size:32px; font-weight:800; letter-spacing:-1px; margin-bottom:8px; }
+  .result-header p { color:var(--text-secondary); font-size:15px; }
+
+  .score-hero {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:20px; padding:36px 40px; max-width:700px; width:100%;
+    margin-bottom:24px; text-align:center;
+    box-shadow: var(--shadow), 0 0 60px rgba(37,99,235,0.08);
+  }
+  .score-name { font-size:22px; font-weight:700; margin-bottom:4px; }
+  .score-date { font-size:13px; color:var(--text-muted); margin-bottom:28px; }
+  .score-number {
+    font-size:80px; font-weight:800; letter-spacing:-3px;
+    color:var(--accent-bright); line-height:1;
+    margin-bottom:8px;
+  }
+  .score-out-of { font-size:20px; color:var(--text-muted); margin-bottom:24px; }
+  .score-percent {
+    display:inline-block;
+    background:var(--accent-glow); border:1.5px solid var(--accent);
+    border-radius:30px; padding:8px 22px;
+    font-size:15px; font-weight:700; color:var(--accent-bright);
+    margin-bottom:28px;
+  }
+
+  .subject-scores {
+    display:grid; gap:10px; text-align:left;
+  }
+  .subj-score-row {
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--bg-input); border-radius:10px; padding:14px 18px;
+    border:1px solid var(--border);
+  }
+  .subj-score-name { font-size:14px; font-weight:600; }
+  .subj-score-right { font-size:13px; color:var(--text-secondary); }
+  .subj-score-right strong { color:var(--accent-bright); font-size:16px; }
+  .subj-bar-wrap { flex:1; margin:0 16px; background:var(--border); border-radius:4px; height:6px; }
+  .subj-bar { height:6px; border-radius:4px; background:var(--accent); }
+
+  .corrections-section {
+    max-width:700px; width:100%; margin-bottom:24px;
+  }
+  .corr-title {
+    font-size:18px; font-weight:700; margin-bottom:16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .corr-card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:20px 24px; margin-bottom:12px;
+  }
+  .corr-q { font-size:14px; color:var(--text-secondary); margin-bottom:8px; }
+  .corr-q strong { color:var(--accent-bright); }
+  .corr-question { font-size:14.5px; line-height:1.7; margin-bottom:12px; }
+  .corr-row { display:flex; gap:10px; margin-bottom:6px; align-items:flex-start; }
+  .corr-label { font-size:12px; font-weight:700; padding:3px 10px; border-radius:6px; flex-shrink:0; }
+  .corr-label.your { background:var(--danger-soft); color:var(--danger); }
+  .corr-label.correct { background:var(--success-soft); color:var(--success); }
+  .corr-label.skipped { background:rgba(100,100,100,0.2); color:var(--text-muted); }
+  .corr-ans { font-size:13.5px; color:var(--text-secondary); line-height:1.6; }
+  .corr-explanation { font-size:13px; color:var(--text-muted); line-height:1.7; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+
+  .retake-btn {
+    background:linear-gradient(135deg,var(--accent),var(--accent-soft));
+    border:none; border-radius:12px; padding:15px 40px;
+    font-size:15px; font-weight:700; font-family:'Sora',sans-serif;
+    color:#fff; cursor:pointer; margin-bottom:40px;
+    box-shadow:0 4px 20px rgba(37,99,235,0.35); transition:all .2s;
+  }
+  .retake-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(37,99,235,0.5); }
+
+  /* modal */
+  .modal-overlay {
+    position:fixed; inset:0; z-index:999;
+    background:rgba(0,0,0,0.75); display:none;
+    align-items:center; justify-content:center;
+    backdrop-filter:blur(4px);
+  }
+  .modal-overlay.show { display:flex; }
+  .modal {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:18px; padding:36px; max-width:440px; width:90%;
+    text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  }
+  .modal h2 { font-size:22px; font-weight:800; margin-bottom:10px; }
+  .modal p { color:var(--text-secondary); font-size:14px; line-height:1.7; margin-bottom:24px; }
+  .modal-btns { display:flex; gap:12px; justify-content:center; }
+  .modal-cancel {
+    background:var(--bg-input); border:1.5px solid var(--border);
+    border-radius:10px; padding:11px 24px; font-size:14px;
+    font-family:'Sora',sans-serif; color:var(--text-secondary); cursor:pointer;
+  }
+  .modal-confirm {
+    background:linear-gradient(135deg,var(--danger),#b91c1c);
+    border:none; border-radius:10px; padding:11px 24px;
+    font-size:14px; font-weight:700; font-family:'Sora',sans-serif;
+    color:#fff; cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ SETUP SCREEN ══════ -->
+<div id="setup-screen">
+  <div class="setup-logo">
+    <div class="logo-icon">📚</div>
+    <div class="brand">Four<span>Square</span> JAMB Centre</div>
+  </div>
+
+
+  <div class="setup-card">
+    <h1 class="setup-title">UTME <span>Mock Examination</span></h1>
+    <p class="setup-desc">Enter your details and select your subject combination to begin your timed practice exam.</p>
+
+    <div class="section-label">Candidate Information</div>
+    <input class="name-input" type="text" id="candidate-name" placeholder="Enter your full name eg: John Obi" autocomplete="off">
+
+    <div class="section-label">Subject Combination</div>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">Select <strong style="color:var(--text-primary)">3 subjects</strong> below. Use of English is compulsory for all candidates.</p>
+
+    <div class="compulsory-tag">
+      📖 Use of English <span class="badge-compulsory">COMPULSORY</span>
+    </div>
+
+    <div class="subjects-grid" id="subjects-grid">
+      <button class="subject-btn" data-subject="mathematics" onclick="toggleSubject(this)">Mathematics <span class="check">✓</span></button>
+      <button class="subject-btn" data-subject="literature" onclick="toggleSubject(this)">Literature in English <span class="check">✓</span></button>
+      <button class="subject-btn" data-subject="crs" onclick="toggleSubject(this)">CRS <span class="check">✓</span></button>
+      <button class="subject-btn" data-subject="government" onclick="toggleSubject(this)">Government <span class="check">✓</span></button>
+      <button class="subject-btn" data-subject="accounting" onclick="toggleSubject(this)">Accounting <span class="check">✓</span></button>
+      <button class="subject-btn" data-subject="economics" onclick="toggleSubject(this)">Economics <span class="check">✓</span></button>
+    </div>
+    <div class="selected-count" id="selected-count">Selected: <strong>0</strong>/3 optional subjects</div>
+
+    <div class="exam-stats" id="exam-stats">
+      <div class="stat"><div class="val" id="stat-q">60</div><div class="lbl">QUESTIONS</div></div>
+      <div class="stat"><div class="val">120</div><div class="lbl">MINUTES</div></div>
+      <div class="stat"><div class="val" id="stat-m">60</div><div class="lbl">TOTAL MARKS</div></div>
+    </div>
+
+    <div class="rules-box">
+      <strong>⚡ EXAM RULES</strong>
+      120-minute countdown. Exam auto-submits when time expires. English includes 10 questions on <em>The Lekki Headmaster</em> by Kabir Alabi Garba (2026 JAMB text). Results are recorded by your instructor. Good luck!
+    </div>
+
+    <button class="begin-btn" id="begin-btn" onclick="beginExam()" disabled>▶ Begin Examination</button>
+  </div>
+</div>
+
+<!-- ══════ EXAM SCREEN ══════ -->
+<div id="exam-screen" style="display:none; flex-direction:column;">
+  <div class="topbar">
+    <div class="topbar-brand">Edu<span>Prep</span> CBT</div>
+    <div class="topbar-candidate">Candidate: <strong id="topbar-name">—</strong></div>
+    <div class="timer-box" id="timer">02:00:00</div>
+  </div>
+
+  <div class="subject-tabs" id="subject-tabs"></div>
+
+  <div class="exam-body">
+    <div style="display:flex; flex-direction:column; flex:1;">
+      <div class="q-panel" id="q-panel">
+        <div class="q-meta">
+          <div class="q-label">Question <strong id="q-num">1</strong> of <strong id="q-total">60</strong></div>
+          <button class="flag-btn" id="flag-btn" onclick="toggleFlag()">⚑ Flag</button>
+        </div>
+        <div class="q-text" id="q-text"></div>
+        <div class="options" id="options"></div>
+      </div>
+      <div class="q-footer">
+        <button class="nav-btn" id="prev-btn" onclick="prevQ()">← Prev</button>
+        <button class="submit-center" onclick="confirmSubmit()">🏁 Submit Exam</button>
+        <button class="nav-btn next-btn" id="next-btn" onclick="nextQ()">Next →</button>
+      </div>
+    </div>
+
+    <div class="side-panel">
+      <div class="progress-card">
+        <div class="progress-title">PROGRESS</div>
+        <div class="progress-grid">
+          <div class="prog-stat"><div class="pval" id="prog-answered">0</div><div class="plbl">ANSWERED</div></div>
+          <div class="prog-stat"><div class="pval" id="prog-remaining" style="color:var(--accent-bright)">0</div><div class="plbl">REMAINING</div></div>
+          <div class="prog-stat"><div class="pval" id="prog-flagged" style="color:var(--gold)">0</div><div class="plbl">FLAGGED</div></div>
+          <div class="prog-stat"><div class="pval" id="prog-total">0</div><div class="plbl">TOTAL</div></div>
+        </div>
+      </div>
+
+      <div class="nav-card">
+        <div class="nav-title" id="nav-subject-label">NAVIGATOR — ENGLISH</div>
+        <div class="q-grid" id="q-grid"></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot ld-answered"></div> Answered</div>
+          <div class="legend-item"><div class="legend-dot ld-flagged"></div> Flagged</div>
+          <div class="legend-item"><div class="legend-dot ld-unanswered"></div> Unanswered</div>
+        </div>
+      </div>
+
+      <button class="side-submit" onclick="confirmSubmit()">🏁 Submit Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ RESULT SCREEN ══════ -->
+<div id="result-screen" style="display:none; flex-direction:column; align-items:center;">
+  <div class="result-header">
+    <h1>Examination Results</h1>
+    <p id="result-subtitle">Your performance summary</p>
+  </div>
+  <div class="score-hero">
+    <div class="score-name" id="res-name"></div>
+    <div class="score-date" id="res-date"></div>
+    <div class="score-number" id="res-score">0</div>
+    <div class="score-out-of" id="res-out-of">/ 0</div>
+    <div class="score-percent" id="res-percent">0%</div>
+    <div class="subject-scores" id="subject-scores"></div>
+  </div>
+
+  <div class="corrections-section">
+    <div class="corr-title">📋 Corrections &amp; Explanations</div>
+    <div id="corrections-list"></div>
+  </div>
+
+  <button class="retake-btn" onclick="retake()">↺ Take Another Exam</button>
+</div>
+
+<!-- Submit Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2>Submit Examination?</h2>
+    <p>Are you sure you want to submit? Once submitted, you cannot return to change your answers.</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-confirm" onclick="submitExam()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  QUESTION BANK
+// ══════════════════════════════════════════════════════
+const QB = {
+  english: [
+    // --- COMPREHENSION & GRAMMAR (50 questions) ---
+    {q:"Choose the word that is most nearly opposite in meaning to the word LOQUACIOUS.",o:["Talkative","Garrulous","Taciturn","Verbose"],a:2,e:"Loquacious means very talkative. Its antonym is taciturn, meaning habitually silent."},
+    {q:"Identify the figure of speech in: 'The moon smiled down on the sleeping city.'",o:["Simile","Personification","Hyperbole","Irony"],a:1,e:"Attributing a human action (smiling) to the moon is personification."},
+    {q:"Select the grammatically correct sentence.",o:["Neither the boys nor the girl are ready.","Neither the boys nor the girl is ready.","Neither the boys nor the girl were ready.","Neither the boys nor the girl have been ready."],a:1,e:"When using 'neither...nor', the verb agrees with the subject closest to it — 'the girl' (singular), so 'is'."},
+    {q:"Choose the correct form: 'If I _____ a millionaire, I would help the poor.'",o:["am","was","were","be"],a:2,e:"Contrary-to-fact conditionals in the present use 'were' for all persons."},
+    {q:"Which option is the correct spelling?",o:["Accomodate","Accommodate","Acomodate","Acommodate"],a:1,e:"'Accommodate' has double 'c' and double 'm'."},
+    {q:"The word AMELIORATE most nearly means:",o:["Worsen","Improve","Destroy","Preserve"],a:1,e:"To ameliorate means to make something bad better or more tolerable."},
+    {q:"Select the sentence with the correct use of the apostrophe.",o:["Its a lovely day.","The cat licked it's paws.","The childrens' books are new.","The children's books are new."],a:3,e:"'Children' is already plural, so the possessive is 'children's' (apostrophe after the word, not after 's')."},
+    {q:"Choose the appropriate option to fill the blank: 'The committee _____ divided in their opinion.'",o:["was","were","is","has been"],a:1,e:"'Committee' can take a plural verb when members act individually, hence 'were'."},
+    {q:"'The pen is mightier than the sword' is an example of:",o:["Simile","Oxymoron","Metaphor","Irony"],a:2,e:"This is a metaphor — it directly states that writing is more powerful than physical force, without using 'like' or 'as'."},
+    {q:"Identify the type of clause in: 'Although he studied hard, he failed the exam.'",o:["Noun clause","Relative clause","Adverbial clause","Appositive clause"],a:2,e:"'Although he studied hard' is an adverbial clause of concession modifying 'he failed'."},
+    {q:"Choose the word that best completes the sentence: 'Her speech was so _____ that the entire audience burst into tears.'",o:["pathetic","apathetic","empathetic","pathological"],a:0,e:"Pathetic here means evoking pity or sadness (used in its classical sense in formal writing)."},
+    {q:"Select the sentence that contains a dangling modifier.",o:["Running to catch the bus, he tripped.","While eating lunch, the phone rang.","Exhausted from the journey, she slept.","Having finished the test, we left."],a:1,e:"'While eating lunch, the phone rang' — the phone cannot eat lunch; this is a dangling modifier."},
+    {q:"The rhetorical device in 'O Death, where is your sting?' is:",o:["Apostrophe","Synecdoche","Alliteration","Euphemism"],a:0,e:"Directly addressing an abstract concept (Death) is the figure of speech called apostrophe."},
+    {q:"Which sentence uses the subjunctive mood correctly?",o:["I wish he was here.","I insist that he be present.","She suggested that he goes early.","They demanded that he went home."],a:1,e:"The subjunctive mood is used after verbs of demand/suggestion: 'insist that he be' (not 'is' or 'was')."},
+    {q:"Choose the option with the correct use of tense: 'By the time she arrived, we _____ dinner.'",o:["have finished","had finished","finished","were finishing"],a:1,e:"The past perfect 'had finished' indicates an action completed before another past action."},
+    {q:"The word INDIGENT means:",o:["Native","Angry","Very poor","Ignorant"],a:2,e:"Indigent means suffering from extreme poverty."},
+    {q:"Identify the sentence type: 'Close the window!'",o:["Declarative","Interrogative","Imperative","Exclamatory"],a:2,e:"A sentence that gives a command or instruction is imperative."},
+    {q:"Select the correct option: 'He gave the award to _____ deserved it most — she and ___.'",o:["whoever; I","whomever; me","whoever; me","whomever; I"],a:0,e:"'Whoever' is the subject of 'deserved'; 'I' is the subject complement after 'be' implied."},
+    {q:"The expression 'to burn the midnight oil' means:",o:["To be reckless with money","To work or study late into the night","To destroy documents","To waste energy"],a:1,e:"This idiom refers to staying up late at night to work or study."},
+    {q:"Choose the correct sentence:",o:["Less students passed this year.","Fewer students passed this year.","Less amount of students passed.","A fewer number of students passed."],a:1,e:"'Fewer' is used for countable nouns (students); 'less' is for uncountable nouns."},
+    {q:"Identify the literary device: 'The stars danced playfully in the moonlit sky.'",o:["Simile","Metaphor","Personification","Allusion"],a:2,e:"Giving human qualities (dancing playfully) to stars is personification."},
+    {q:"Which is an example of an oxymoron?",o:["As cold as ice","The sound of silence","Faster than a cheetah","The roaring sea"],a:1,e:"An oxymoron combines two contradictory terms — 'sound' and 'silence' are opposites."},
+    {q:"Choose the sentence with correct subject-verb agreement: 'A number of students _____ absent today.'",o:["is","was","are","has been"],a:2,e:"'A number of' takes a plural verb: 'a number of students are'."},
+    {q:"The word EPHEMERAL means:",o:["Long-lasting","Supernatural","Short-lived","Dangerous"],a:2,e:"Ephemeral means lasting for a very short time."},
+    {q:"Identify the indirect object in: 'She gave the teacher her assignment.'",o:["She","the teacher","her assignment","gave"],a:1,e:"The indirect object tells to whom the action is done — 'the teacher' received the assignment."},
+    {q:"Select the appropriate word: 'The accused was _____ of the crime.'",o:["exonerated","exasperated","exhorted","exorbitant"],a:0,e:"To be exonerated means to be officially absolved or cleared of blame."},
+    {q:"Which sentence contains a split infinitive?",o:["She decided to leave early.","He wanted to quickly finish the race.","They planned to meet at noon.","We hoped to be there."],a:1,e:"'To quickly finish' is a split infinitive — an adverb is placed between 'to' and the verb."},
+    {q:"The antonym of VERBOSE is:",o:["Wordy","Concise","Fluent","Eloquent"],a:1,e:"Verbose means using too many words; its antonym is concise, meaning brief and to the point."},
+    {q:"Choose the correct punctuation: 'Mr Jones _____ the principal _____ addressed the assembly.'",o:[", , —","— —",", —","— ,"],a:0,e:"Commas set off the appositive 'the principal' from the rest of the sentence."},
+    {q:"Identify the figure of speech in: 'Life is a journey with no map.'",o:["Simile","Personification","Metaphor","Alliteration"],a:2,e:"'Life is a journey' makes a direct comparison without 'like' or 'as', making it a metaphor."},
+    {q:"'Hyperbole' is best defined as:",o:["A comparison using 'like' or 'as'","An extreme exaggeration for effect","A mild understatement","A direct address to an absent person"],a:1,e:"Hyperbole is a figure of speech involving extreme exaggeration to emphasise a point."},
+    {q:"Select the correct word: 'The jury delivered their _____ after three days.'",o:["verdict","verdict","veredict","vardict"],a:0,e:"The correct spelling is 'verdict' — the jury's formal decision."},
+    {q:"Which sentence is in the passive voice?",o:["The dog bit the man.","The teacher praised the student.","The letter was written by her.","She completed the assignment."],a:2,e:"'The letter was written by her' uses the passive construction (object + was + past participle + by + agent)."},
+    {q:"Choose the correct preposition: 'She is good _____ mathematics.'",o:["in","at","on","for"],a:1,e:"The correct collocation is 'good at' a subject."},
+    {q:"The grammatical function of 'reading' in 'Reading is fundamental' is:",o:["Gerund","Present participle","Adjective","Infinitive"],a:0,e:"When a verb ending in '-ing' functions as a noun (here, as the subject), it is a gerund."},
+    {q:"Identify the malapropism: 'He has an allergic reaction to the medicine and became very inflammable.'",o:["allergic","reaction","inflammable","medicine"],a:2,e:"'Inflammable' (meaning easily set on fire) is incorrectly used instead of 'inflamed' or 'inflamed/irritated'."},
+    {q:"Choose the option that correctly completes the analogy: 'Flock is to birds as _____ is to fish.'",o:["pride","pack","school","herd"],a:2,e:"A group of fish is called a school, just as a group of birds is called a flock."},
+    {q:"The word OBFUSCATE means:",o:["To clarify","To make confusing or unclear","To brighten","To encourage"],a:1,e:"To obfuscate means to render obscure, unclear, or unintelligible."},
+    {q:"Identify the correct form: 'He is one of those students who _____ always late.'",o:["is","was","are","has been"],a:2,e:"The antecedent is 'those students' (plural), so the verb is 'are'."},
+    {q:"Select the sentence with correct use of a semicolon.",o:["I love reading; and I also enjoy writing.","She is smart; however, she is lazy.","He went to school; but forgot his bag.","They played; and laughed all day."],a:1,e:"A semicolon before a conjunctive adverb (however) is correct. It should not be used before coordinating conjunctions like 'and' or 'but'."},
+    {q:"'Onomatopoeia' refers to words that:",o:["Contradict themselves","Imitate sounds","Exaggerate facts","Compare unlike things"],a:1,e:"Onomatopoeia describes words that phonetically imitate the sound they describe (e.g. buzz, hiss, clang)."},
+    {q:"Which sentence has an error?",o:["He is taller than I.","Between you and me, this is wrong.","Everyone must submit their work.","She sang beautiful."],a:3,e:"'Beautiful' is an adjective; an adverb 'beautifully' is needed to modify the verb 'sang'."},
+    {q:"The plural of 'phenomenon' is:",o:["Phenomenons","Phenomena","Phenomenas","Phenomeni"],a:1,e:"'Phenomena' is the correct Greek-derived plural of 'phenomenon'."},
+    {q:"Choose the correct form of the comparative: 'This is _____ of the two options.'",o:["the best","the better","more better","most better"],a:1,e:"When comparing exactly two things, the comparative form 'better' is used (not 'best')."},
+    {q:"The word SAGACIOUS most closely means:",o:["Stupid","Wise and judicious","Boastful","Careless"],a:1,e:"Sagacious means having or showing keen mental discernment and good judgement."},
+    {q:"Choose the correct option: 'I _____ to the market when it began to rain.'",o:["walked","was walking","have walked","had been walking"],a:1,e:"Past continuous 'was walking' indicates an action in progress when another action (rain) interrupted it."},
+    {q:"Identify the type of sentence: 'Unless you study hard, you will fail.'",o:["Simple","Compound","Complex","Compound-complex"],a:2,e:"It contains one independent clause and one dependent clause ('Unless you study hard'), making it complex."},
+    {q:"The figurative language in 'Time is a thief' is:",o:["Simile","Personification","Metaphor","Allusion"],a:2,e:"Comparing time directly to a thief without 'like' or 'as' is a metaphor."},
+    {q:"Select the word that does NOT collocate with 'make'.",o:["a mistake","a decision","a suggestion","a journey"],a:3,e:"We 'take' a journey, not 'make' a journey. The correct collocation is 'make a mistake/decision/suggestion'."},
+    {q:"Choose the correct relative pronoun: 'The student _____ book was stolen reported it.'",o:["who","whom","whose","which"],a:2,e:"'Whose' is the possessive relative pronoun used for people."},
+
+    // --- THE LEKKI HEADMASTER (10 questions) ---
+    {q:"In 'The Lekki Headmaster' by Kabir Alabi Garba, who is the central character?",o:["Mr Adegoke","Bello Musa","Oga Victor","Headmaster Lawal"],a:3,e:"The novel centres on Headmaster Lawal, whose complex moral and professional life drives the narrative."},
+    {q:"The setting of 'The Lekki Headmaster' is primarily in:",o:["Kano","Abuja","Lagos (Lekki)","Ibadan"],a:2,e:"The novel is set in Lekki, Lagos, reflecting contemporary urban Nigeria."},
+    {q:"A major theme explored in 'The Lekki Headmaster' is:",o:["Colonialism","Corruption and moral decadence in education","Ancient mythology","Intercontinental travel"],a:1,e:"The novel interrogates corruption, compromise, and the erosion of moral standards within Nigeria's educational system."},
+    {q:"The tone of 'The Lekki Headmaster' can best be described as:",o:["Celebratory","Satirical and critical","Romantic","Indifferent"],a:1,e:"Garba employs a satirical tone to critique the failures within the Nigerian education sector."},
+    {q:"Which of the following best describes the Headmaster's conflict in the novel?",o:["A man torn between two wives","An official caught between personal integrity and systemic corruption","A teacher with dyslexia","A soldier returning from war"],a:1,e:"The headmaster's core struggle is navigating systemic corruption while trying to maintain personal integrity."},
+    {q:"The author of 'The Lekki Headmaster' uses the school environment to symbolise:",o:["Hope and progress","The state of the Nigerian nation","Western imperialism","Religious conflict"],a:1,e:"The school is a microcosm of Nigerian society, its dysfunction reflecting broader national issues."},
+    {q:"What narrative technique is predominantly used in 'The Lekki Headmaster'?",o:["Stream of consciousness","Third-person omniscient narration","Epistolary form","Second-person narration"],a:1,e:"The novel employs third-person omniscient narration, giving the reader access to multiple characters' thoughts."},
+    {q:"Which literary device is extensively used in 'The Lekki Headmaster' to critique Nigerian governance?",o:["Alliteration","Allegory","Onomatopoeia","Synecdoche"],a:1,e:"The school setting functions as an allegory for the Nigerian state, with the headmaster representing governance."},
+    {q:"How does the community in 'The Lekki Headmaster' respond to the headmaster's actions?",o:["With complete indifference","With mixed reactions ranging from support to condemnation","With unanimous praise","With immediate legal action"],a:1,e:"The community's divided response mirrors society's complex attitudes toward corruption and compromise."},
+    {q:"The ending of 'The Lekki Headmaster' can be classified as:",o:["Triumphant and celebratory","Ambiguous and thought-provoking","Conclusively tragic","Comedic and light-hearted"],a:1,e:"The novel's conclusion is deliberately ambiguous, leaving readers to reflect on moral accountability and systemic change."},
+  ],
+
+  mathematics: [
+    {q:"Simplify: (2³ × 3²) ÷ (2² × 3)",o:["6","12","18","9"],a:0,e:"(8 × 9) ÷ (4 × 3) = 72 ÷ 12 = 6"},
+    {q:"Find the sum of the first 20 terms of an arithmetic progression if the first term is 5 and common difference is 3.",o:["650","670","610","630"],a:1,e:"S = n/2(2a + (n-1)d) = 20/2(10 + 57) = 10 × 67 = 670"},
+    {q:"If 2x + 3y = 12 and x − y = 1, find x.",o:["3","4","2","5"],a:0,e:"From x − y = 1, x = y + 1. Substituting: 2(y+1) + 3y = 12 → 5y = 10 → y = 2, x = 3"},
+    {q:"Evaluate log₁₀ 0.001",o:["-3","-2","3","2"],a:0,e:"0.001 = 10⁻³, so log₁₀ 0.001 = −3"},
+    {q:"A bag contains 5 red and 7 blue balls. Two balls are picked at random. What is the probability both are red?",o:["5/33","5/22","10/33","5/66"],a:0,e:"P = C(5,2)/C(12,2) = 10/66 = 5/33"},
+    {q:"Find the gradient of the line joining (2, 5) and (4, 11).",o:["2","3","4","6"],a:1,e:"Gradient = (11−5)/(4−2) = 6/2 = 3"},
+    {q:"Solve for x: |2x − 4| = 6",o:["x = 5 or x = −1","x = 5 only","x = −1 only","x = 1 or x = 5"],a:0,e:"2x − 4 = 6 → x = 5; or 2x − 4 = −6 → x = −1"},
+    {q:"The area of a trapezium with parallel sides 8 cm and 12 cm and height 5 cm is:",o:["50 cm²","100 cm²","60 cm²","40 cm²"],a:0,e:"Area = ½(a+b)h = ½(8+12)(5) = ½ × 20 × 5 = 50 cm²"},
+    {q:"Factorise completely: x² − 5x + 6",o:["(x−2)(x−3)","(x+2)(x+3)","(x−6)(x+1)","(x−1)(x−6)"],a:0,e:"x² − 5x + 6 = (x−2)(x−3) since −2×−3=6 and −2+(−3)=−5"},
+    {q:"If y varies directly as x and y = 10 when x = 4, find y when x = 6.",o:["12","15","18","20"],a:1,e:"k = y/x = 10/4 = 2.5; y = 2.5 × 6 = 15"},
+    {q:"Evaluate: ∫₀² (3x² + 2x) dx",o:["12","10","14","8"],a:0,e:"[x³ + x²]₀² = (8 + 4) − 0 = 12"},
+    {q:"The mean of 7, 9, 12, x, and 17 is 11. Find x.",o:["8","10","9","11"],a:1,e:"(7+9+12+x+17)/5 = 11 → 45+x = 55 → x = 10"},
+    {q:"Find the 7th term of a geometric progression with first term 3 and common ratio 2.",o:["192","96","384","128"],a:0,e:"T₇ = ar⁶ = 3 × 2⁶ = 3 × 64 = 192"},
+    {q:"Differentiate y = 4x³ − 3x² + 2x − 5 with respect to x.",o:["12x² − 6x + 2","12x² + 6x − 2","4x² − 3x + 2","12x³ − 6x² + 2"],a:0,e:"dy/dx = 12x² − 6x + 2 using the power rule."},
+    {q:"A right triangle has legs of 6 cm and 8 cm. What is the hypotenuse?",o:["10 cm","12 cm","14 cm","9 cm"],a:0,e:"h = √(6² + 8²) = √(36+64) = √100 = 10 cm (3-4-5 Pythagorean triple scaled by 2)"},
+    {q:"Solve: 3ˣ = 81",o:["x = 3","x = 4","x = 5","x = 2"],a:1,e:"81 = 3⁴, so x = 4"},
+    {q:"The volume of a cone with radius 7 cm and height 12 cm is: (π ≈ 22/7)",o:["616 cm³","308 cm³","924 cm³","1232 cm³"],a:0,e:"V = ⅓πr²h = ⅓ × 22/7 × 49 × 12 = ⅓ × 1848 = 616 cm³"},
+    {q:"If the matrix A = [[2,3],[1,4]], find the determinant.",o:["5","11","8","−5"],a:0,e:"det(A) = (2×4) − (3×1) = 8 − 3 = 5"},
+    {q:"Simplify: (√5 + √3)(√5 − √3)",o:["2","8","√15","4"],a:0,e:"Using difference of squares: 5 − 3 = 2"},
+    {q:"A straight line has equation 2y = 6x + 4. What is the gradient?",o:["2","3","6","4"],a:1,e:"Rearranging: y = 3x + 2; gradient = 3"},
+    {q:"Evaluate: C(10,3)",o:["120","720","210","90"],a:0,e:"C(10,3) = 10!/(3!7!) = (10×9×8)/(3×2×1) = 120"},
+    {q:"Find the range of the set: {3, 7, 2, 15, 9, 1, 10}",o:["14","13","15","12"],a:0,e:"Range = maximum − minimum = 15 − 1 = 14"},
+    {q:"Convert 110111₂ to base 10.",o:["55","53","57","51"],a:0,e:"32+16+0+4+2+1 = 55"},
+    {q:"If f(x) = 2x² − 3x + 1, find f(−1).",o:["6","2","4","0"],a:0,e:"f(−1) = 2(1) − 3(−1) + 1 = 2 + 3 + 1 = 6"},
+    {q:"Solve: 2x² − 5x − 3 = 0",o:["x = 3 or x = −½","x = 3 or x = ½","x = −3 or x = ½","x = −3 or x = −½"],a:0,e:"2x² − 5x − 3 = (2x+1)(x−3) = 0 → x = −½ or x = 3"},
+    {q:"A ladder 10 m long leans against a wall at 60° to the horizontal. How high does it reach?",o:["5√3 m","5 m","10 m","5√2 m"],a:0,e:"Height = 10 × sin 60° = 10 × (√3/2) = 5√3 m"},
+    {q:"The LCM of 12, 18, and 24 is:",o:["72","48","36","144"],a:0,e:"Prime factorisation: 12=2²×3, 18=2×3², 24=2³×3. LCM = 2³×3² = 72"},
+    {q:"If the population of a town increases by 10% annually, what will it be after 2 years if currently 50,000?",o:["60,500","60,000","55,000","61,000"],a:0,e:"50000 × 1.1² = 50000 × 1.21 = 60,500"},
+    {q:"Find the equation of a line passing through (1, 2) with gradient 3.",o:["y = 3x − 1","y = 3x + 1","y = 3x + 2","y = 3x − 2"],a:0,e:"y − 2 = 3(x − 1) → y = 3x − 1"},
+    {q:"Evaluate: tan 45° + sin 30° − cos 60°",o:["1","0","2","½"],a:0,e:"tan 45° = 1, sin 30° = ½, cos 60° = ½; 1 + ½ − ½ = 1"},
+    {q:"A man buys a car for ₦800,000 and sells it for ₦1,000,000. What is his percentage profit?",o:["20%","25%","15%","30%"],a:1,e:"Profit = 200,000; % profit = (200,000/800,000) × 100 = 25%"},
+    {q:"Solve: log₂(x+1) = 3",o:["7","8","6","9"],a:0,e:"x + 1 = 2³ = 8 → x = 7"},
+    {q:"The standard deviation of {2, 4, 6, 8, 10} is:",o:["2√2","2","√8","4"],a:0,e:"Mean = 6; variance = [(16+4+0+4+16)/5] = 8; SD = √8 = 2√2"},
+    {q:"What is the sum of interior angles of a pentagon?",o:["540°","360°","720°","450°"],a:0,e:"Sum = (n−2) × 180° = (5−2) × 180° = 540°"},
+    {q:"A car travels 180 km in 3 hours. What is the speed in km/h?",o:["60 km/h","50 km/h","70 km/h","45 km/h"],a:0,e:"Speed = distance/time = 180/3 = 60 km/h"},
+    {q:"Expand and simplify: (x + 3)² − (x − 2)²",o:["10x + 5","10(x+½)","5(2x+1)","10x+5"],a:0,e:"(x²+6x+9) − (x²−4x+4) = 10x + 5"},
+    {q:"The HCF of 48 and 72 is:",o:["12","18","24","36"],a:2,e:"48 = 2⁴×3, 72 = 2³×3²; HCF = 2³×3 = 24"},
+    {q:"If P = {2,3,5,7} and Q = {1,2,4,6,7}, find P ∩ Q.",o:["{2,7}","{1,2,4,6,7}","{1,2,3,4,5,6,7}","{3,5}"],a:0,e:"P ∩ Q contains elements in both sets: {2, 7}"},
+    {q:"Find the value of 2⁻³ × 4²",o:["2","4","8","½"],a:0,e:"2⁻³ = 1/8; 4² = 16; 16/8 = 2"},
+    {q:"A cuboid has dimensions 4cm × 5cm × 6cm. What is its total surface area?",o:["148 cm²","120 cm²","148 cm²","208 cm²"],a:0,e:"SA = 2(lw + lh + wh) = 2(20+24+30) = 2×74 = 148 cm²"},
+    {q:"Solve the inequality: 3x − 7 > 5",o:["x > 4","x > 3","x < 4","x ≥ 4"],a:0,e:"3x > 12 → x > 4"},
+  ],
+
+  literature: [
+    {q:"The term 'dramatic irony' refers to:",o:["An actor performing comedy","A situation where the audience knows more than the character","Using dramatic language","Irony in a play's dialogue only"],a:1,e:"Dramatic irony occurs when the audience possesses information that a character in the play does not."},
+    {q:"Which of the following is a characteristic of Greek tragedy?",o:["Happy ending","Aristotelian catharsis","Comic subplot","Romance"],a:1,e:"Aristotle defined tragedy as producing catharsis — the purging of emotions of pity and fear."},
+    {q:"Identify the novel technique known as 'stream of consciousness'.",o:["A narrative following a river","A method depicting inner thoughts and emotions continuously","A form of poetic metre","A stage direction"],a:1,e:"Stream of consciousness portrays the continuous, unfiltered flow of a character's thoughts, pioneered by writers like Virginia Woolf."},
+    {q:"Chinua Achebe's 'Things Fall Apart' is set among which people?",o:["The Hausa","The Yoruba","The Igbo","The Fulani"],a:2,e:"The novel is set in Umuofia, a fictional Igbo village in Nigeria."},
+    {q:"The protagonist of Wole Soyinka's 'The Lion and the Jewel' is:",o:["Lakunle","Baroka","Sidi","Sadiku"],a:2,e:"Sidi, the village belle, is the central character around whom the plot revolves."},
+    {q:"A 'foil' character in literature is one who:",o:["Deceives the protagonist","Contrasts with the main character to highlight their traits","Provides comic relief","Narrates the story"],a:1,e:"A foil is a character whose contrasting qualities serve to emphasise those of the protagonist."},
+    {q:"Which poetic device involves the repetition of initial consonant sounds?",o:["Assonance","Alliteration","Consonance","Rhyme"],a:1,e:"Alliteration is the repetition of the same consonant sound at the beginning of closely connected words."},
+    {q:"The theme of 'Things Fall Apart' is best described as:",o:["Love and betrayal","The clash between tradition and colonialism","Exploration and discovery","Religious conversion"],a:1,e:"The novel primarily explores the conflict between Igbo traditional culture and the encroachment of colonialism and Christianity."},
+    {q:"In drama, a 'soliloquy' is:",o:["A conversation between two characters","A speech made by a character alone on stage revealing inner thoughts","A type of stage direction","A dramatic monologue addressed to the audience"],a:1,e:"A soliloquy is a dramatic device where a character speaks their thoughts aloud while alone, revealing inner conflicts."},
+    {q:"The Romantic Period in literature is characterised by:",o:["Reason and logic","Emphasis on nature, emotion, and the individual","Social realism","Classical restraint"],a:1,e:"Romanticism (late 18th–19th century) celebrated nature, individual emotion, imagination, and rejected Enlightenment rationalism."},
+    {q:"Which figure of speech is used in: 'The child is the father of the man'?",o:["Simile","Paradox","Oxymoron","Hyperbole"],a:1,e:"This is a paradox — a statement that seems contradictory but contains a deeper truth (childhood shapes adulthood)."},
+    {q:"Ola Rotimi's 'The Gods Are Not to Blame' is an adaptation of:",o:["Hamlet","Oedipus Rex","Macbeth","Antigone"],a:1,e:"Rotimi adapted Sophocles' Oedipus Rex into a Yoruba setting to explore fate and individual agency."},
+    {q:"In poetry, iambic pentameter consists of:",o:["Five stressed syllables per line","Five iambs (unstressed-stressed) per line","Ten stressed syllables","Four anapests per line"],a:1,e:"Iambic pentameter has five iambs per line, totalling ten syllables alternating unstressed-stressed."},
+    {q:"What is the term for a story within a story?",o:["Allegory","Frame narrative","Epistolary","Stream of consciousness"],a:1,e:"A frame narrative (or story within a story) uses an outer narrative to enclose an inner one."},
+    {q:"The 'tragic flaw' of a hero is called:",o:["Hubris","Hamartia","Nemesis","Catharsis"],a:1,e:"Hamartia is the Aristotelian term for the fatal flaw that leads to a tragic hero's downfall."},
+    {q:"'Purple Hibiscus' was written by:",o:["Chimamanda Ngozi Adichie","Buchi Emecheta","Flora Nwapa","Sefi Atta"],a:0,e:"Purple Hibiscus (2003) is Chimamanda Ngozi Adichie's debut novel."},
+    {q:"An 'elegy' is a poem:",o:["Celebrating a marriage","Mourning the dead or lamenting loss","Praising heroic deeds","Describing nature"],a:1,e:"An elegy is a mournful poem, typically a lament for the dead."},
+    {q:"In 'The Lion and the Jewel', Baroka is characterised as:",o:["A modernist who embraces change","A cunning traditionalist who values his culture","A weak and indecisive leader","A young, progressive chief"],a:1,e:"Baroka is portrayed as a shrewd, cunning, and traditionalist Bale who cleverly outmanoeuvres the modernist Lakunle."},
+    {q:"Which term describes a narrator who tells the story in first person but whose account is unreliable?",o:["Omniscient narrator","Unreliable narrator","Third-person narrator","Intrusive narrator"],a:1,e:"An unreliable narrator's account is biased, mistaken, or deliberately misleading."},
+    {q:"The 'denouement' in a plot refers to:",o:["The initial conflict","The climax","The resolution or unravelling at the end","The rising action"],a:2,e:"Denouement (French for 'untying') is the final resolution where loose ends are tied up after the climax."},
+    {q:"'Soyinka' won the Nobel Prize for Literature in:",o:["1984","1986","1990","1988"],a:1,e:"Wole Soyinka became the first African to win the Nobel Prize for Literature in 1986."},
+    {q:"The use of 'flashback' in narrative is a type of:",o:["Foreshadowing","Analepsis (retrospection)","Prolepsis","Stream of consciousness"],a:1,e:"Flashback is technically called analepsis — a narrative technique that goes back in time to earlier events."},
+    {q:"Which of the following is a comedy by Shakespeare?",o:["Othello","King Lear","A Midsummer Night's Dream","Macbeth"],a:2,e:"A Midsummer Night's Dream is a comedy; the others are tragedies."},
+    {q:"The literary device where an abstract quality is given human form is:",o:["Personification","Allegory","Anthropomorphism","Pathetic fallacy"],a:1,e:"Allegory is a narrative in which characters and events represent abstract ideas — the whole story has a secondary symbolic meaning."},
+    {q:"In 'Death and the King's Horseman', the colonial character is named:",o:["Elesin","Pilkings","Iyaloja","Amusa"],a:1,e:"Pilkings is the British District Officer whose interference disrupts the ritual in Soyinka's play."},
+    {q:"A 'sonnet' traditionally has how many lines?",o:["12","16","14","18"],a:2,e:"A sonnet has 14 lines, typically in iambic pentameter."},
+    {q:"The narrative technique where the author interrupts the story to address the reader directly is called:",o:["Aside","Apostrophe","Breaking the fourth wall / Direct address","Soliloquy"],a:2,e:"When a narrator directly addresses the reader, disrupting the narrative, it is called breaking the fourth wall or direct address."},
+    {q:"Which poetic form has three lines with a 5-7-5 syllable structure?",o:["Limerick","Ode","Haiku","Sonnet"],a:2,e:"A haiku is a Japanese poetic form with three lines: 5 syllables, 7 syllables, 5 syllables."},
+    {q:"Achebe's narrative technique in 'Things Fall Apart' is best described as:",o:["Stream of consciousness","Third-person omniscient with oral tradition elements","First-person confessional","Epistolary"],a:1,e:"Achebe uses a third-person omniscient narrator enriched with Igbo proverbs and oral storytelling traditions."},
+    {q:"The term 'verisimilitude' in literature means:",o:["The use of verse","The appearance of being true or real","Violence in narrative","A type of rhyme scheme"],a:1,e:"Verisimilitude refers to the quality of seeming true, real, or believable in a fictional work."},
+    {q:"In poetry, 'enjambment' occurs when:",o:["A line ends with punctuation","One line flows into the next without a pause","A poem lacks rhyme","Two lines share the same metre"],a:1,e:"Enjambment is when a sentence or phrase runs over the end of a line into the next without a grammatical break."},
+    {q:"'Okonkwo' in 'Things Fall Apart' is primarily motivated by:",o:["Wealth and material comfort","Fear of weakness and failure like his father","Love for his family","Religious devotion"],a:1,e:"Okonkwo's dominant motivation is his terror of resembling his father, Unoka — lazy and weak — which drives him to extremes of aggression."},
+    {q:"The term for the central insight or message of a literary work is:",o:["Motif","Theme","Plot","Symbol"],a:1,e:"A theme is the central, recurring idea or message that runs through a literary work."},
+    {q:"The playwright of 'Trials of Brother Jero' is:",o:["Chinua Achebe","Wole Soyinka","J.P. Clark","Ola Rotimi"],a:1,e:"Wole Soyinka wrote The Trials of Brother Jero, a satirical comedy."},
+    {q:"Identify the correct definition of 'catharsis' as used by Aristotle.",o:["The hero's flaw","The emotional purging experienced by the audience","The resolution of a plot","A type of comedy"],a:1,e:"Aristotle defined catharsis as the emotional release or purification the audience undergoes through watching tragedy."},
+    {q:"Which of the following describes a 'bildungsroman'?",o:["A war narrative","A coming-of-age novel tracing a character's development","A political satire","A supernatural horror story"],a:1,e:"A bildungsroman (German: formation novel) follows the psychological and moral growth of a protagonist from youth to adulthood."},
+    {q:"In 'The Lion and the Jewel', what does the photograph of Sidi symbolise?",o:["Her vanity only","The power of modernity and outside influence","Baroka's cunning","Traditional values"],a:1,e:"The photograph represents the intrusion of modernity and the outside world into traditional village life."},
+    {q:"The term 'in medias res' means:",o:["At the beginning of a story","In the middle of things — starting a narrative mid-action","At the end of a story","In a meditative state"],a:1,e:"'In medias res' (Latin) means beginning a narrative in the middle of the action, without preamble."},
+    {q:"A 'dirge' is a literary term for:",o:["A victory song","A slow, mournful piece of music or poetry for the dead","A satirical poem","A children's rhyme"],a:1,e:"A dirge is a slow, sad song or poem, especially one intended to accompany a funeral."},
+    {q:"The concept of 'hubris' in Greek tragedy refers to:",o:["Excessive pride leading to downfall","A type of theatrical mask","A comic subplot","Divine intervention"],a:0,e:"Hubris is the excessive pride or arrogance in a tragic hero that leads to their downfall."},
+    {q:"Buchi Emecheta's novels predominantly explore:",o:["Political history","The experiences of African women, especially under patriarchy","Supernatural folklore","War narratives"],a:1,e:"Emecheta's works — like 'The Joys of Motherhood' — examine the struggles and suppression of African women."},
+  ],
+
+  crs: [
+    {q:"According to Genesis, on which day did God create man?",o:["Fifth day","Sixth day","Seventh day","Fourth day"],a:1,e:"God created man on the sixth day (Genesis 1:26-31)."},
+    {q:"Who was the first king of Israel?",o:["David","Solomon","Saul","Samuel"],a:2,e:"Saul was anointed by Samuel as the first king of Israel (1 Samuel 10)."},
+    {q:"The Sermon on the Mount is recorded in:",o:["Mark 5-7","Matthew 5-7","Luke 6","John 3"],a:1,e:"The Sermon on the Mount is found in Matthew chapters 5 through 7."},
+    {q:"Which of the following is NOT one of the Ten Commandments?",o:["You shall not steal","You shall not murder","You shall honour your parents","You shall love your neighbour"],a:3,e:"'Love your neighbour' is the Great Commandment (Matthew 22:39), not part of the Decalogue."},
+    {q:"The parable of the Prodigal Son teaches primarily about:",o:["Hard work","God's unconditional forgiveness and love","The importance of obedience","The dangers of wealth"],a:1,e:"The parable (Luke 15:11-32) illustrates the boundless, forgiving love of God the Father."},
+    {q:"St. Paul wrote his letter to the Romans while he was in:",o:["Jerusalem","Corinth","Rome","Ephesus"],a:1,e:"Scholars believe Paul wrote Romans from Corinth around AD 57."},
+    {q:"The concept of 'Agape' in Christian theology refers to:",o:["Romantic love","Unconditional, self-giving divine love","Brotherly affection","Parental love"],a:1,e:"Agape is the Greek term for unconditional, sacrificial love — the love God has for humanity."},
+    {q:"Which prophet said 'The soul that sins shall die'?",o:["Isaiah","Jeremiah","Ezekiel","Amos"],a:2,e:"Ezekiel 18:4 contains this statement emphasising individual moral responsibility."},
+    {q:"The first miracle of Jesus recorded in the Gospel of John was:",o:["Healing a blind man","Feeding 5,000","Turning water to wine at Cana","Raising Lazarus"],a:2,e:"John 2:1-11 records Jesus turning water to wine at the wedding in Cana as His first sign."},
+    {q:"The 'I AM' statements are found primarily in the Gospel of:",o:["Matthew","Mark","Luke","John"],a:3,e:"The seven 'I AM' declarations of Jesus are unique to the Gospel of John."},
+    {q:"Pentecost, as described in Acts 2, primarily signifies:",o:["The resurrection of Jesus","The descent of the Holy Spirit and birth of the Church","The ascension of Jesus","The Last Supper"],a:1,e:"Acts 2 describes the outpouring of the Holy Spirit on the disciples, marking the birth of the Christian Church."},
+    {q:"The concept of 'justification by faith alone' (Sola Fide) is central to which letter of Paul?",o:["1 Corinthians","Ephesians","Galatians","Colossians"],a:2,e:"Galatians is the most forceful exposition of justification by faith, not by works of the law."},
+    {q:"Which Old Testament figure is considered a type (prefiguration) of Christ in his suffering?",o:["Moses","Joseph","Abraham","Elijah"],a:1,e:"Joseph's rejection, suffering, and eventual exaltation foreshadow Christ's passion and resurrection."},
+    {q:"The 'Fruit of the Spirit' is listed in:",o:["Romans 8","1 Corinthians 13","Galatians 5","Ephesians 6"],a:2,e:"Galatians 5:22-23 lists the fruit of the Spirit: love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control."},
+    {q:"The Covenant God made with Abraham was sealed by:",o:["Circumcision","Baptism","A burnt offering","Sabbath observance"],a:0,e:"God established circumcision as the sign of the covenant with Abraham and his descendants (Genesis 17:10-11)."},
+    {q:"Which Council formally established the canon of the New Testament?",o:["Council of Nicaea","Council of Carthage","Council of Trent","Council of Jerusalem"],a:1,e:"The Council of Carthage (397 AD) formally recognised the 27-book New Testament canon."},
+    {q:"The term 'eschatology' in Christian theology refers to:",o:["The study of the church","The study of the last things: death, judgment, heaven, hell","The doctrine of salvation","The nature of scripture"],a:1,e:"Eschatology deals with the 'last things' — death, the final judgment, the Second Coming, heaven and hell."},
+    {q:"Who denied Jesus three times before the rooster crowed?",o:["Judas Iscariot","Thomas","Peter","Andrew"],a:2,e:"Peter denied knowing Jesus three times, as Jesus had predicted (Luke 22:54-62)."},
+    {q:"The Beatitudes begin with:",o:["'You are the salt of the earth'","'Blessed are the poor in spirit'","'Love your enemies'","'Our Father in heaven'"],a:1,e:"The Beatitudes (Matthew 5:3-12) open with 'Blessed are the poor in spirit, for theirs is the kingdom of heaven.'"},
+    {q:"Which book of the Bible begins with 'In the beginning was the Word'?",o:["Genesis","John","Revelation","Isaiah"],a:1,e:"The Gospel of John opens with the prologue about the Logos (Word) — a deliberate echo of Genesis."},
+    {q:"The Exodus from Egypt is a central metaphor for which theological concept?",o:["Creation","Redemption and liberation","Covenant law","Prophecy"],a:1,e:"The Exodus is the defining Old Testament event of divine redemption — liberation from bondage, prefiguring salvation in Christ."},
+    {q:"Who was the mother of John the Baptist?",o:["Mary","Anna","Elizabeth","Miriam"],a:2,e:"Elizabeth, a relative of Mary, was the mother of John the Baptist (Luke 1:5-25)."},
+    {q:"The 'kenosis' refers to Christ:",o:["Rising from the dead","Emptying Himself of divine prerogatives in the Incarnation","Performing miracles","Teaching in the Temple"],a:1,e:"Kenosis (Greek: emptying) refers to Philippians 2:7 — Christ 'emptied himself' in taking on human nature."},
+    {q:"The 'Wisdom Literature' of the Old Testament includes:",o:["Leviticus and Numbers","Psalms, Proverbs, Job, Ecclesiastes","Isaiah and Jeremiah","Ezra and Nehemiah"],a:1,e:"The Wisdom Literature comprises books dealing with human experience and divine order: Psalms, Proverbs, Job, Ecclesiastes, and Song of Songs."},
+    {q:"Which apostle is known as 'the beloved disciple'?",o:["Peter","James","John","Andrew"],a:2,e:"John is traditionally identified as 'the disciple whom Jesus loved' (John 13:23)."},
+    {q:"The concept of 'theosis' (divinisation) is most central to which Christian tradition?",o:["Protestant","Roman Catholic","Eastern Orthodox","Baptist"],a:2,e:"Eastern Orthodox theology places special emphasis on theosis — the transformative participation of humans in divine life."},
+    {q:"The Transfiguration of Jesus occurred on:",o:["The Mount of Olives","Mount Sinai","A high mountain (traditionally Tabor)","Mount Zion"],a:2,e:"The Transfiguration occurred on a high mountain — traditionally identified as Mount Tabor (Matthew 17:1-9)."},
+    {q:"Which prophet is most associated with the concept of the 'Suffering Servant'?",o:["Ezekiel","Amos","Isaiah","Micah"],a:2,e:"Isaiah 52-53 contains the Servant Songs, with the fourth depicting a Suffering Servant — interpreted christologically."},
+    {q:"The Apostles' Creed affirms belief in:",o:["Purgatory","The communion of saints and resurrection of the body","Papal infallibility","Sola Scriptura"],a:1,e:"The Apostles' Creed affirms the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting."},
+    {q:"'Love is patient, love is kind' is found in:",o:["Romans 13","John 15","1 Corinthians 13","Ephesians 5"],a:2,e:"1 Corinthians 13 (the 'Love Chapter') contains this famous description of agape love."},
+    {q:"The term 'hermeneutics' refers to:",o:["The history of the Church","The principles and methodology of biblical interpretation","A type of prayer","Church governance"],a:1,e:"Hermeneutics is the theory and methodology of interpretation, especially applied to biblical texts."},
+    {q:"God's covenant with Noah is signified by:",o:["Circumcision","The Passover","A rainbow","The Sabbath"],a:2,e:"God placed a rainbow in the sky as a sign of the covenant never to flood the earth again (Genesis 9:13)."},
+    {q:"The Magnificat is attributed to:",o:["Elizabeth","Mary","Anna","Simeon"],a:1,e:"The Magnificat is Mary's hymn of praise in Luke 1:46-55, beginning 'My soul magnifies the Lord.'"},
+    {q:"Which New Testament letter addresses the 'faith without works is dead' argument?",o:["Romans","Galatians","James","Hebrews"],a:2,e:"James 2:14-26 famously argues that genuine faith must be evidenced by good works."},
+    {q:"The term 'atonement' literally means:",o:["Forgiving an enemy","At-one-ment — reconciliation between God and humanity","The payment of church tithes","A form of prayer"],a:1,e:"Atonement (at-one-ment) refers to the reconciliation between God and humanity achieved through Christ's sacrifice."},
+    {q:"The prophet Amos was primarily concerned with:",o:["Temple worship rituals","Social justice and the oppression of the poor","Foreign policy","The coming Messiah"],a:1,e:"Amos strongly condemned the exploitation of the poor and social injustice in Israel (Amos 5:21-24)."},
+    {q:"'Blessed are the peacemakers' appears in which text?",o:["The Ten Commandments","The Lord's Prayer","The Beatitudes","Psalm 23"],a:2,e:"'Blessed are the peacemakers, for they will be called children of God' is one of the Beatitudes (Matthew 5:9)."},
+    {q:"Which figure in the Old Testament is known for extreme patience and suffering?",o:["Elijah","Job","Jonah","Daniel"],a:1,e:"The Book of Job explores undeserved suffering and righteous endurance — Job is the paradigm of patient suffering."},
+    {q:"The Nicene Creed was formulated primarily at the Council of:",o:["Trent","Jerusalem","Nicaea","Constantinople"],a:2,e:"The Council of Nicaea (325 AD) was convened to address the Arian controversy and produced the Nicene Creed."},
+    {q:"The concept of 'original sin' is associated primarily with:",o:["St. Augustine of Hippo","St. Thomas Aquinas","Martin Luther","John Calvin"],a:0,e:"St. Augustine systematised the doctrine of original sin, arguing that Adam's fall corrupted all human nature."},
+  ],
+
+  government: [
+    {q:"The concept of 'Separation of Powers' was developed by:",o:["John Locke","Thomas Hobbes","Montesquieu","Jean-Jacques Rousseau"],a:2,e:"Baron de Montesquieu articulated the doctrine of separation of powers in 'The Spirit of the Laws' (1748)."},
+    {q:"Which of the following is NOT a feature of a federal system of government?",o:["Division of powers between central and regional governments","A written constitution","A unitary legislature","Supremacy of the constitution"],a:2,e:"A unitary legislature is a feature of a unitary state. Federal systems typically have bicameral legislatures."},
+    {q:"The doctrine of 'Judicial Review' means the judiciary has the power to:",o:["Make laws","Review and nullify laws that conflict with the constitution","Appoint ministers","Dismiss the legislature"],a:1,e:"Judicial review is the power of courts to examine legislative and executive acts and invalidate those that violate the constitution."},
+    {q:"Nigeria's First Republic lasted from:",o:["1960-1966","1963-1966","1960-1963","1959-1966"],a:0,e:"Nigeria's First Republic began with independence in 1960 and ended with the military coup of January 1966."},
+    {q:"The theory that the state originated from a voluntary agreement among people is called:",o:["Divine Right Theory","Social Contract Theory","Force Theory","Evolutionary Theory"],a:1,e:"The Social Contract Theory (Hobbes, Locke, Rousseau) holds that the state was formed through a voluntary agreement among individuals."},
+    {q:"Which arm of government is responsible for making laws in Nigeria?",o:["Executive","Judiciary","Legislature","Civil Service"],a:2,e:"The National Assembly (legislature) — comprising the Senate and House of Representatives — is constitutionally responsible for law-making."},
+    {q:"'Proportional Representation' is an electoral system that:",o:["Gives majority party all seats","Allocates seats based on proportion of votes received","Uses first-past-the-post","Eliminates minority parties"],a:1,e:"Proportional Representation ensures that parties receive seats in proportion to their share of the total votes cast."},
+    {q:"The United Nations was established in:",o:["1919","1945","1948","1939"],a:1,e:"The United Nations was established on 24 October 1945, after the Second World War."},
+    {q:"Which of the following is a characteristic of democracy?",o:["Single-party rule","Suppression of opposition","Rule of law","Hereditary leadership"],a:2,e:"Rule of law — that no one is above the law — is a fundamental principle of democracy."},
+    {q:"The Economic Community of West African States (ECOWAS) was established in:",o:["1960","1963","1975","1980"],a:2,e:"ECOWAS was founded by the Treaty of Lagos on 28 May 1975."},
+    {q:"'Checks and Balances' in government refers to:",o:["Financial auditing","The mechanism by which each branch of government limits the others","Voter registration processes","Constitutional amendments"],a:1,e:"Checks and balances prevent any one branch from becoming too powerful by giving each branch power to limit the others."},
+    {q:"A 'unicameral legislature' is one that has:",o:["Two chambers","One chamber","Three chambers","No formal structure"],a:1,e:"A unicameral legislature has only one house, unlike a bicameral legislature which has two."},
+    {q:"Which type of government gives regions significant autonomy and power?",o:["Unitary","Federal","Confederate","Monarchical"],a:1,e:"A federal system divides sovereignty between a central government and regional (state/provincial) governments."},
+    {q:"The concept of 'Sovereignty' means:",o:["Economic independence","Supreme and absolute power of the state to govern itself without external interference","Diplomatic recognition","Military strength"],a:1,e:"Sovereignty refers to the supreme authority of a state to govern itself and make laws free from external control."},
+    {q:"Under Nigeria's 1999 Constitution, the term of the President is:",o:["4 years, renewable once","5 years, renewable once","6 years, not renewable","4 years, renewable twice"],a:1,e:"Section 135 of the 1999 Constitution provides for a four-year term, with a maximum of two terms."},
+    {q:"The African Union (AU) replaced which organisation?",o:["ECOWAS","OAU (Organisation of African Unity)","Commonwealth","Non-Aligned Movement"],a:1,e:"The African Union replaced the Organisation of African Unity (OAU) in 2002."},
+    {q:"'Public opinion' in political science refers to:",o:["Government propaganda","The aggregate views and attitudes held by a significant portion of the population","Judicial decisions","Legislative debates"],a:1,e:"Public opinion is the collective political views of citizens, which governments in democracies must consider."},
+    {q:"The Preamble of the Nigerian Constitution begins with:",o:["'We the Government...'","'We the People of the Federal Republic of Nigeria...'","'In the name of God...'","'The Federal Republic of Nigeria...'"],a:1,e:"Nigeria's 1999 Constitution begins: 'We the People of the Federal Republic of Nigeria...'"},
+    {q:"Which of the following best defines 'colonialism'?",o:["Trade between nations","The policy of extending a nation's rule over foreign territories, exploiting their resources","Diplomatic alliance","Cultural exchange"],a:1,e:"Colonialism is the practice of a powerful nation extending its control over other territories, exploiting their people and resources."},
+    {q:"Totalitarianism differs from authoritarianism primarily because it:",o:["Allows limited political freedoms","Seeks to control all aspects of life, public and private","Only controls the economy","Is always communist"],a:1,e:"Totalitarianism seeks total control over all spheres of life; authoritarianism primarily controls political life but may allow private autonomy."},
+    {q:"The principle of 'Federalism' in Nigeria was first introduced under:",o:["The Richards Constitution (1946)","The Lyttleton Constitution (1954)","The Macpherson Constitution (1951)","The Independence Constitution (1960)"],a:1,e:"The Lyttleton Constitution of 1954 formally established federalism in Nigeria, creating three regions with significant autonomy."},
+    {q:"Which theory argues that the state evolved naturally over time from families and clans?",o:["Force Theory","Social Contract Theory","Evolutionary/Historical Theory","Divine Right Theory"],a:2,e:"The Evolutionary Theory holds that the state developed gradually from kinship groups — families → clans → tribes → state."},
+    {q:"A 'pressure group' differs from a political party primarily because it:",o:["Has more members","Seeks to influence policy without seeking to win political office","Is funded by government","Operates internationally only"],a:1,e:"Pressure groups (interest groups) aim to influence government policy without seeking to form a government or win elections."},
+    {q:"The term 'Gerrymander' refers to:",o:["A type of proportional representation","Manipulating electoral boundaries to favour a particular party","A form of direct democracy","A constitutional amendment process"],a:1,e:"Gerrymandering is the manipulation of electoral district boundaries to give one party an unfair advantage."},
+    {q:"Nigeria's Senate has how many members?",o:["360","109","120","360"],a:1,e:"The Nigerian Senate consists of 109 senators — three per state (36 states) and one for the FCT."},
+    {q:"The concept of 'Citizenship' grants individuals:",o:["Only the right to vote","Rights and obligations under the laws of a particular state","Diplomatic immunity","Unrestricted freedom"],a:1,e:"Citizenship confers both rights (voting, protection) and responsibilities (paying taxes, obeying laws) within a state."},
+    {q:"Which of the following is a function of the Executive arm of government?",o:["Making laws","Interpreting the constitution","Implementing and enforcing laws","Reviewing government accounts"],a:2,e:"The executive arm is responsible for implementing and enforcing laws passed by the legislature."},
+    {q:"The 'Cold War' was primarily a conflict between:",o:["Germany and France","USA and USSR","Britain and Germany","China and Japan"],a:1,e:"The Cold War (1947-1991) was a geopolitical tension between the United States (capitalism) and the Soviet Union (communism)."},
+    {q:"'Coup d'état' refers to:",o:["A democratic election","A sudden, forceful overthrow of a government","A diplomatic disagreement","A constitutional referendum"],a:1,e:"A coup d'état is the sudden violent overthrow of an existing government by a small group, typically the military."},
+    {q:"Which of the following is an essential element of the state?",o:["Religion","Population, territory, government, and sovereignty","Economic prosperity","A standing army"],a:1,e:"Political scientists identify four elements of the state: population, territory, government, and sovereignty."},
+    {q:"The Secretary-General of the United Nations is elected by:",o:["The Security Council alone","The General Assembly, on the recommendation of the Security Council","Member states by direct vote","The International Court of Justice"],a:1,e:"Under Article 97 of the UN Charter, the Secretary-General is appointed by the General Assembly upon the recommendation of the Security Council."},
+    {q:"Nigeria's first military coup occurred in:",o:["1963","1966","1975","1970"],a:1,e:"Nigeria's first military coup was on 15 January 1966, led by Major Chukwuma Kaduna Nzeogwu."},
+    {q:"'Apartheid' was a policy of racial segregation practiced in:",o:["Kenya","Zimbabwe","South Africa","Namibia"],a:2,e:"Apartheid ('separateness' in Afrikaans) was the institutionalised system of racial segregation enforced in South Africa from 1948 to 1994."},
+    {q:"The International Court of Justice (ICJ) is based in:",o:["New York","Geneva","Brussels","The Hague"],a:3,e:"The ICJ (the principal judicial organ of the UN) is located at the Peace Palace in The Hague, Netherlands."},
+    {q:"A 'parliamentary system' of government is characterised by:",o:["Fixed terms for the executive","The executive being accountable to and drawn from the legislature","Separation of powers","A directly elected president"],a:1,e:"In parliamentary systems, the prime minister and cabinet are drawn from and remain accountable to the legislature."},
+    {q:"The Biafran War in Nigeria lasted from:",o:["1964-1967","1967-1970","1968-1971","1966-1969"],a:1,e:"The Nigerian Civil War (Biafra conflict) lasted from 6 July 1967 to 15 January 1970."},
+    {q:"Which document is considered the 'Magna Carta of human rights'?",o:["The Geneva Convention","The Universal Declaration of Human Rights","The Atlantic Charter","The Vienna Convention"],a:1,e:"The Universal Declaration of Human Rights (1948) is widely regarded as the foundational international human rights document."},
+    {q:"'Totalitarian states' are characterised by:",o:["Free press and elections","State control over all aspects of life","Limited government intervention","Strong federalism"],a:1,e:"Totalitarian states assert complete authority over every aspect of public and private life."},
+    {q:"The concept of 'Rule of Law' was popularised by:",o:["Montesquieu","A.V. Dicey","Jean-Jacques Rousseau","John Locke"],a:1,e:"A.V. Dicey's 'Introduction to the Study of the Law of the Constitution' (1885) popularised the Rule of Law doctrine."},
+    {q:"Which of the following is NOT a permanent member of the UN Security Council?",o:["France","China","Germany","Russia"],a:2,e:"The five permanent members (P5) are: USA, UK, France, Russia, and China. Germany is not a permanent member."},
+  ],
+
+  accounting: [
+    {q:"Which accounting principle states that assets should be recorded at their original purchase price?",o:["Going concern","Matching principle","Historical cost principle","Accrual principle"],a:2,e:"The historical cost principle requires assets to be recorded at their original cost at the time of acquisition."},
+    {q:"A credit entry in a liability account will:",o:["Decrease the liability","Increase the liability","Have no effect","Convert it to an asset"],a:1,e:"In double-entry bookkeeping, credit entries increase liabilities (DEAD CLIC rule)."},
+    {q:"The accounting equation is:",o:["Assets = Liabilities + Capital","Capital = Assets + Liabilities","Liabilities = Assets + Capital","Assets = Capital − Liabilities"],a:0,e:"The fundamental accounting equation: Assets = Liabilities + Owners' Equity (Capital)."},
+    {q:"Depreciation is an example of which accounting concept?",o:["Going concern","Matching concept","Prudence concept","Accrual concept"],a:1,e:"Depreciation applies the matching concept — matching the cost of an asset to the revenue it generates over its useful life."},
+    {q:"Which of the following is a current asset?",o:["Land","Building","Trade receivables (debtors)","Long-term investments"],a:2,e:"Current assets are assets expected to be converted to cash within one year. Trade receivables qualify."},
+    {q:"The Trial Balance checks that:",o:["All transactions are recorded correctly","Total debits equal total credits","All assets are correctly valued","The firm is profitable"],a:1,e:"The Trial Balance verifies that total debits equal total credits, confirming the arithmetical accuracy of double entries."},
+    {q:"Goodwill is classified as:",o:["A current asset","A tangible fixed asset","An intangible fixed asset","A current liability"],a:2,e:"Goodwill is an intangible fixed (non-current) asset — it has no physical form but provides long-term economic benefit."},
+    {q:"If opening stock is ₦50,000, purchases ₦200,000, and closing stock ₦30,000, cost of goods sold is:",o:["₦220,000","₦180,000","₦280,000","₦170,000"],a:0,e:"COGS = Opening Stock + Purchases − Closing Stock = 50,000 + 200,000 − 30,000 = ₦220,000"},
+    {q:"A credit note is issued by a seller to a buyer when:",o:["Goods are purchased","Goods are returned or an overcharge is corrected","Payment is received","A new account is opened"],a:1,e:"A credit note acknowledges that the buyer's account has been credited — issued on returns inward or overcharges."},
+    {q:"Which of the following does NOT appear in the Trading Account?",o:["Sales","Cost of goods sold","Gross profit","Salaries"],a:3,e:"Salaries appear in the Profit & Loss Account (as an overhead), not in the Trading Account."},
+    {q:"The 'Double Entry' principle requires:",o:["Two ledgers for every transaction","Every transaction to have an equal debit and credit entry","Two people to authorise entries","Transactions recorded twice for verification"],a:1,e:"Double-entry bookkeeping: every transaction has two equal and opposite entries — a debit and a credit."},
+    {q:"Net Profit is calculated as:",o:["Gross Profit − Expenses","Revenue − Cost of Goods Sold","Total Assets − Total Liabilities","Revenue + Expenses"],a:0,e:"Net Profit = Gross Profit − Operating Expenses (overheads)."},
+    {q:"A bank overdraft is classified as:",o:["A long-term liability","A current liability","A fixed asset","Owner's equity"],a:1,e:"A bank overdraft is repayable on demand and is therefore classified as a current liability."},
+    {q:"The concept of 'Going Concern' assumes that:",o:["The business will be liquidated soon","The business will continue operating for the foreseeable future","Assets are worth their market value","All debts will be paid immediately"],a:1,e:"The going concern concept assumes the business will continue to operate for the foreseeable future, justifying non-liquidation values."},
+    {q:"Carriage inwards is charged to:",o:["Trading Account (increases cost of goods sold)","Profit and Loss Account","Balance Sheet","Capital Account"],a:0,e:"Carriage inwards (cost of bringing goods purchased) is added to cost of goods and appears in the Trading Account."},
+    {q:"Which of the following is NOT a method of depreciation?",o:["Straight-line method","Reducing balance method","FIFO method","Sum-of-digits method"],a:2,e:"FIFO (First In First Out) is a stock valuation method, not a depreciation method."},
+    {q:"A provision for bad debts is created because of the principle of:",o:["Historical cost","Going concern","Prudence (conservatism)","Consistency"],a:2,e:"The prudence concept requires that potential losses (like bad debts) be recognised as soon as they are probable."},
+    {q:"Shares issued at a price above their nominal value generate a:",o:["Share discount","Share premium","Capital loss","Debenture"],a:1,e:"When shares are issued above par (nominal) value, the excess is recorded as a share premium in the balance sheet."},
+    {q:"Which of the following is a source document in accounting?",o:["Ledger","Trial balance","Invoice","Journal"],a:2,e:"An invoice is a source document — it provides original evidence of a business transaction."},
+    {q:"The format of a Balance Sheet follows:",o:["Assets = Revenue − Expenses","Assets = Liabilities + Capital","Capital = Assets − Revenue","Revenue = Assets + Liabilities"],a:1,e:"The Balance Sheet is structured on: Assets = Liabilities + Capital (owners' equity)."},
+    {q:"Accrued expenses are:",o:["Expenses paid in advance","Expenses incurred but not yet paid","Revenue received in advance","Revenue earned but not yet received"],a:1,e:"Accrued expenses (accruals) are costs incurred in the current period but not yet paid — a current liability."},
+    {q:"FIFO stands for:",o:["First Invoice First Out","First In First Out","Fixed Interest Financial Obligation","Full Interest Financing Options"],a:1,e:"FIFO (First In First Out) assumes that the first goods received are the first to be sold."},
+    {q:"Capital expenditure is expenditure on:",o:["Wages","Electricity","Purchase of machinery","Office stationery"],a:2,e:"Capital expenditure acquires or improves long-term assets (e.g., machinery, buildings) and is capitalised on the balance sheet."},
+    {q:"A debit entry in a debtor's account means:",o:["The debtor owes us less","The debtor owes us more","We owe the debtor","The account is being closed"],a:1,e:"Debtors are assets — a debit increases the debtor balance, showing more is owed to us."},
+    {q:"Control accounts are prepared to:",o:["Replace the ledger","Verify the accuracy of the sales or purchases ledger","Show bank balances","Prepare the trial balance only"],a:1,e:"Control accounts (Debtors/Creditors Control) act as a check on the accuracy of the personal ledger accounts."},
+    {q:"The purchase of stock on credit is recorded as:",o:["Debit Purchases, Credit Bank","Debit Purchases, Credit Creditors","Debit Creditors, Credit Purchases","Debit Bank, Credit Purchases"],a:1,e:"Credit purchases: Debit Purchases Account (expense increases) and Credit Creditors Account (liability increases)."},
+    {q:"Which of the following is a limitation of the Trial Balance?",o:["It doesn't check for double entries","It cannot detect errors of omission or principle","It always shows the correct net profit","It includes all source documents"],a:1,e:"The Trial Balance can balance even when errors of omission, commission, or principle exist — these are compensating errors."},
+    {q:"Retained earnings are found on the:",o:["Income Statement only","Balance Sheet under equity","Trading Account","Cash Flow Statement only"],a:1,e:"Retained earnings (undistributed profits) are reported under shareholders' equity on the balance sheet."},
+    {q:"A reduction in the value of a fixed asset over time due to wear and tear is:",o:["Amortisation","Depletion","Depreciation","Impairment"],a:2,e:"Depreciation is the systematic allocation of the cost of a tangible fixed asset over its useful economic life."},
+    {q:"Bills Receivable represent:",o:["Money owed by the business","Money the business owes to suppliers","Future cash inflows — promises to pay received from debtors","Bank deposits"],a:2,e:"Bills Receivable are promissory notes or bills of exchange held by the business — amounts customers have formally promised to pay."},
+    {q:"The Gross Profit Ratio is calculated as:",o:["(Net Profit / Revenue) × 100","(Gross Profit / Cost of Goods Sold) × 100","(Gross Profit / Revenue) × 100","(Revenue / Total Assets) × 100"],a:2,e:"Gross Profit Ratio = (Gross Profit / Net Revenue) × 100 — measures profit from trading operations."},
+    {q:"Partnership goodwill is usually raised when:",o:["A partner borrows money","A new partner is admitted or an old partner retires","Annual accounts are prepared","The business is incorporated"],a:1,e:"Goodwill in partnerships is typically raised (and written off) when partners join or leave to compensate existing partners for built-up reputation."},
+    {q:"Which accounting error is discovered by the Trial Balance?",o:["Error of omission","Error of commission where both entries are on the same side","Complete reversal of entries","Posting to wrong account"],a:1,e:"If both debit and credit are on the same side (e.g., both credited), totals will differ and the Trial Balance will not agree."},
+    {q:"Preference shares differ from ordinary shares in that:",o:["They carry voting rights only","They receive fixed dividends and priority in winding up","They are always redeemable","They do not form part of capital"],a:1,e:"Preference shares carry a fixed dividend and have priority over ordinary shares in dividend payments and liquidation."},
+    {q:"The main purpose of a Cash Flow Statement is to:",o:["Show net profit","Show changes in cash and cash equivalents over a period","List all assets and liabilities","Calculate gross profit"],a:1,e:"A Cash Flow Statement shows the actual movement of cash (and equivalents) into and out of the business during a period."},
+    {q:"Suspense accounts are opened to:",o:["Record non-current assets","Temporarily hold entries when errors are detected in the Trial Balance","Record prepayments","Track petty cash"],a:1,e:"A suspense account is used as a temporary measure when a Trial Balance fails to agree, while the error is located and corrected."},
+    {q:"The concept of 'Materiality' in accounting means:",o:["All items must be disclosed regardless of size","Only information significant enough to influence decisions needs to be reported","All assets must be recorded at market value","The business must never make a loss"],a:1,e:"Materiality requires that only information significant enough to influence the decisions of users needs to be reported or disclosed."},
+    {q:"Revenue expenditure differs from capital expenditure in that it:",o:["Acquires long-term assets","Is incurred to maintain day-to-day operations and is expensed in the period","Always involves large sums","Is recorded on the Balance Sheet"],a:1,e:"Revenue expenditure is day-to-day spending (wages, rent, repairs) charged to the Income Statement in the period incurred."},
+    {q:"A company's current ratio is 3:1. This means:",o:["For every ₦3 of debt there is ₦1 of assets","For every ₦3 of current assets there is ₦1 of current liabilities","The company is unprofitable","The company is over-leveraged"],a:1,e:"Current Ratio = Current Assets / Current Liabilities. A ratio of 3:1 means ₦3 of current assets for every ₦1 of current liabilities — generally healthy."},
+    {q:"What is the purpose of depreciation in accounting?",o:["To show market value of assets","To match the cost of an asset to the revenue it generates over its useful life","To reduce tax liability only","To increase the value of the business"],a:1,e:"Depreciation applies the matching principle — spreading the cost of a non-current asset over its useful economic life."},
+    {q:"Partners' drawings are deducted from:",o:["Net profit","Gross profit","Capital accounts","Revenue accounts"],a:2,e:"Partners' drawings reduce their capital accounts — they are not expenses but appropriations of capital."},
+  ],
+
+  economics: [
+    {q:"The law of demand states that, all else equal, as price increases:",o:["Quantity demanded increases","Quantity demanded decreases","Quantity supplied decreases","Supply increases"],a:1,e:"The law of demand establishes an inverse relationship between price and quantity demanded, ceteris paribus."},
+    {q:"'Ceteris paribus' in economics means:",o:["Increase in demand","All other things being equal (constant)","Supply and demand equilibrium","Price stability"],a:1,e:"Ceteris paribus (Latin) means 'all other things held constant' — a critical assumption in economic analysis."},
+    {q:"Which type of good has an income elasticity of demand less than zero (negative)?",o:["Normal good","Luxury good","Inferior good","Giffen good"],a:2,e:"Inferior goods have negative income elasticity — as income rises, demand falls (e.g., garri, public transport)."},
+    {q:"The Gross Domestic Product (GDP) measures:",o:["Total exports of a country","The total market value of all final goods and services produced within a country in a given period","Government expenditure only","Total income of citizens"],a:1,e:"GDP is the monetary value of all finished goods and services produced within a country's borders in a specific time period."},
+    {q:"Price elasticity of demand is said to be inelastic when:",o:["PED = 1","PED > 1","PED < 1","PED = infinity"],a:2,e:"Inelastic demand (PED < 1) means quantity demanded is relatively unresponsive to price changes."},
+    {q:"Which of the following is an example of a public good?",o:["A private car","A loaf of bread","National defence","A cinema ticket"],a:2,e:"National defence is non-rival and non-excludable — characteristics of a pure public good."},
+    {q:"The concept of 'opportunity cost' refers to:",o:["The direct monetary cost of a choice","The value of the next best alternative foregone when a decision is made","The total cost of production","The cost of market failure"],a:1,e:"Opportunity cost is the value of the best alternative sacrificed when a choice is made."},
+    {q:"A perfectly competitive market is characterised by:",o:["One seller","Few sellers with significant market power","Many buyers and sellers, homogeneous products, free entry/exit","Product differentiation and price-setting power"],a:2,e:"Perfect competition assumes many price-taking firms, homogeneous products, perfect information, and free market entry/exit."},
+    {q:"'Stagflation' refers to:",o:["High inflation and high growth","Stagnant growth (or recession) combined with high inflation","Low inflation and low unemployment","Rapid economic expansion"],a:1,e:"Stagflation is the simultaneous occurrence of stagnant economic growth, high unemployment, and high inflation — a 1970s phenomenon."},
+    {q:"Which economic school of thought argues that government intervention in the economy is necessary to stabilise demand?",o:["Classical Economics","Monetarism","Keynesian Economics","Supply-side Economics"],a:2,e:"Keynesian Economics (John Maynard Keynes) advocates government spending and fiscal policy to manage aggregate demand."},
+    {q:"The production possibility curve (PPC) illustrates:",o:["The relationship between price and supply","The maximum combinations of two goods an economy can produce given its resources","Government budget constraints","The theory of comparative advantage"],a:1,e:"The PPC shows the maximum output combinations of two goods possible with given resources and technology, illustrating scarcity and trade-offs."},
+    {q:"'Consumer surplus' is defined as:",o:["The profit earned by firms","The difference between what consumers are willing to pay and what they actually pay","The excess supply in a market","Tax revenue from consumers"],a:1,e:"Consumer surplus is the benefit consumers receive — the gap between their maximum willingness to pay and the actual market price."},
+    {q:"Inflation is best defined as:",o:["A fall in the general price level","A sustained rise in the general price level over time","A one-off price increase","Increase in money supply only"],a:1,e:"Inflation is a persistent, sustained increase in the general price level of goods and services in an economy."},
+    {q:"Which type of unemployment is caused by a downturn in the business cycle?",o:["Frictional","Structural","Cyclical (demand-deficient)","Seasonal"],a:2,e:"Cyclical unemployment (demand-deficient) rises during recessions when aggregate demand falls, reducing the need for workers."},
+    {q:"The term 'monopsony' refers to a market with:",o:["One seller","One buyer","Few sellers","Many buyers"],a:1,e:"A monopsony has a single buyer who exercises market power over suppliers — the labour market analogue is a single employer."},
+    {q:"Which of the following is a tool of monetary policy?",o:["Taxation","Government expenditure","Interest rates (set by central bank)","Import tariffs"],a:2,e:"Monetary policy tools include interest rates, reserve requirements, and open market operations — controlled by the central bank."},
+    {q:"The 'multiplier effect' in economics describes how:",o:["Prices multiply during inflation","An initial change in spending leads to a larger ultimate change in income and output","Money supply multiplies reserves","Interest rates multiply investment"],a:1,e:"The multiplier effect shows that an initial injection of spending (e.g., government expenditure) generates a larger total increase in national income."},
+    {q:"'Economies of scale' occur when:",o:["Average cost rises as output increases","Average cost falls as output increases","Total cost remains constant","Revenue equals cost"],a:1,e:"Economies of scale are the cost advantages a firm gains due to increased scale of operation — long-run average costs fall."},
+    {q:"The 'invisible hand' concept was introduced by:",o:["Karl Marx","John Maynard Keynes","Adam Smith","Milton Friedman"],a:2,e:"Adam Smith introduced the 'invisible hand' in 'The Wealth of Nations' (1776) — the idea that self-interest guides efficient resource allocation."},
+    {q:"A subsidy granted to producers will:",o:["Shift the supply curve left","Shift the supply curve right (increase supply)","Shift the demand curve right","Have no effect on supply"],a:1,e:"A production subsidy reduces costs for producers, shifting the supply curve rightward and lowering market prices."},
+    {q:"'Balance of Payments' records:",o:["Government tax revenue","All economic transactions between a country's residents and the rest of the world","Internal trade within a country","Stock market transactions"],a:1,e:"The Balance of Payments is a comprehensive record of all economic transactions between residents of a country and the rest of the world."},
+    {q:"Which market structure is associated with price rigidity (kinked demand curve)?",o:["Perfect competition","Monopoly","Oligopoly","Monopolistic competition"],a:2,e:"The kinked demand curve model explains price rigidity in oligopolies — firms fear competitors will match price cuts but not increases."},
+    {q:"'Comparative advantage' in trade theory means a country should specialise in producing goods where it has:",o:["The lowest absolute cost","The lowest opportunity cost relative to other countries","The highest output","The largest natural resources"],a:1,e:"Comparative advantage (Ricardo) — a country should specialise in goods where its opportunity cost of production is relatively lower."},
+    {q:"What is 'derived demand'?",o:["Demand created by advertising","Demand for a factor of production arising from the demand for the good it produces","Government-stimulated demand","Demand for luxury goods"],a:1,e:"Derived demand refers to demand for a factor (e.g., labour) that arises from the demand for the final good it helps produce."},
+    {q:"The Human Development Index (HDI) measures:",o:["GDP per capita alone","A composite of life expectancy, education, and standard of living","Military strength","Trade surplus"],a:1,e:"The HDI (UNDP) is a composite index measuring average achievements in health (life expectancy), education, and standard of living (GNI per capita)."},
+    {q:"'Market failure' occurs when:",o:["Markets are in equilibrium","The market mechanism fails to allocate resources efficiently","Firms make excess profits","Consumers are irrational"],a:1,e:"Market failure exists when the free market fails to achieve allocative efficiency, leading to sub-optimal resource allocation."},
+    {q:"The 'IS-LM model' was developed to show the interaction between:",o:["Inflation and unemployment","The goods market (IS) and money market (LM)","Supply and demand","Trade and capital flows"],a:1,e:"The IS-LM model (Hicks, 1937) shows equilibrium in the goods market (IS curve) and money market (LM curve) simultaneously."},
+    {q:"A 'progressive tax' is one where:",o:["Everyone pays the same amount","The tax rate rises as income rises","The tax rate falls as income rises","Tax is charged only on goods"],a:1,e:"A progressive tax takes a larger percentage from high-income earners, reducing income inequality."},
+    {q:"Inflation is most damaging to:",o:["Borrowers","Exporters","People on fixed incomes and creditors","The government"],a:2,e:"Fixed-income earners and creditors suffer most from inflation — their real purchasing power falls as prices rise."},
+    {q:"'Crowding out' in economics refers to:",o:["Market oversupply","Government borrowing driving up interest rates and reducing private investment","Firms leaving the market","Consumer confidence declining"],a:1,e:"Crowding out occurs when government borrowing raises interest rates, which reduces private sector investment."},
+    {q:"What is the formula for calculating Price Elasticity of Demand?",o:["% change in price / % change in quantity demanded","% change in quantity demanded / % change in price","Change in quantity / Change in income","Change in supply / Change in demand"],a:1,e:"PED = (% change in quantity demanded) ÷ (% change in price) — measures responsiveness of demand to price changes."},
+    {q:"'Moral hazard' in economics refers to:",o:["Unethical business practices","The tendency to take greater risks when protected from consequences (e.g., by insurance)","Government corruption","Market manipulation"],a:1,e:"Moral hazard arises when one party takes more risks because another party bears the consequences, e.g., insured individuals taking less care."},
+    {q:"A fall in the exchange rate of the Naira (depreciation) would likely:",o:["Make Nigerian exports more expensive abroad","Reduce Nigeria's import costs","Make Nigerian exports cheaper and more competitive abroad","Increase consumer purchasing power"],a:2,e:"Currency depreciation makes a country's exports cheaper for foreign buyers, improving export competitiveness, though imports become more expensive."},
+    {q:"The 'Laffer Curve' illustrates the relationship between:",o:["Interest rates and investment","Tax rates and tax revenue collected","Inflation and unemployment","Income and consumption"],a:1,e:"The Laffer Curve shows that beyond a certain tax rate, further increases reduce total tax revenue because activity falls."},
+    {q:"'Structural unemployment' is caused by:",o:["Workers between jobs","A general recession","A mismatch between workers' skills and available jobs due to industry change","Seasonal fluctuations"],a:2,e:"Structural unemployment occurs when technological change or industry shifts create a permanent mismatch between workers' skills and job requirements."},
+    {q:"The Phillips Curve depicts the relationship between:",o:["GDP and inflation","Inflation and unemployment (an inverse relationship)","Interest rates and investment","Money supply and output"],a:1,e:"The original Phillips Curve showed an inverse relationship between inflation and unemployment — low unemployment correlated with higher inflation."},
+    {q:"Which economic concept explains why people prefer a given amount of money now rather than the same amount in the future?",o:["Opportunity cost","Time preference / Present value","Inflation","Diminishing returns"],a:1,e:"Time preference refers to the general preference for present consumption over future consumption — the basis of the concept of present value and interest."},
+    {q:"'Allocative efficiency' in economics is achieved when:",o:["Output is maximised","Resources are allocated to their highest-valued uses (P = MC)","Firms minimise costs","Government regulates all markets"],a:1,e:"Allocative efficiency occurs when price equals marginal cost — resources go to their most valuable use from society's perspective."},
+    {q:"Nigeria's major revenue source has historically been:",o:["Agriculture","Tourism","Petroleum (crude oil)","Manufacturing"],a:2,e:"Since the 1970s, crude oil has dominated Nigeria's foreign exchange earnings and government revenue."},
+    {q:"A natural monopoly arises when:",o:["The government grants a single firm exclusive rights","One firm can supply the market at lower cost than multiple firms due to high fixed costs","A company patents its product","A foreign firm dominates the domestic market"],a:1,e:"A natural monopoly occurs when economies of scale are so large that it is most efficient for a single firm to supply the market (e.g., utilities)."},
+    {q:"The concept of 'diminishing marginal utility' states that:",o:["As you consume more of a good, total utility falls","Each additional unit of a good consumed adds less satisfaction than the previous","More expensive goods give more utility","Utility can never be measured"],a:1,e:"Diminishing marginal utility: as a consumer consumes successive units of a good, the additional satisfaction from each unit decreases."},
+  ],
+};
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let state = {
+  candidateName: '',
+  selectedSubjects: [],
+  examSubjects: [],   // [{id, label, questions:[]}]
+  answers: {},        // key: "subjectIdx-qIdx" -> optionIdx
+  flags: {},          // key: "subjectIdx-qIdx" -> bool
+  currentSubject: 0,
+  currentQ: 0,
+  timerInterval: null,
+  secondsLeft: 7200,
+};
+
+const SUBJECT_META = {
+  english:    { label:'Use of English', count:60 },
+  mathematics:{ label:'Mathematics', count:40 },
+  literature: { label:'Literature in English', count:40 },
+  crs:        { label:'CRS', count:40 },
+  government: { label:'Government', count:40 },
+  accounting: { label:'Accounting', count:40 },
+  economics:  { label:'Economics', count:40 },
+};
+
+// ══════════════════════════════════════════════════════
+//  SETUP
+// ══════════════════════════════════════════════════════
+function toggleSubject(btn) {
+  const sub = btn.dataset.subject;
+  const sel = state.selectedSubjects;
+  const idx = sel.indexOf(sub);
+  if(idx === -1) {
+    if(sel.length >= 3) { alert('You can only select 3 subjects.'); return; }
+    sel.push(sub);
+    btn.classList.add('selected');
+  } else {
+    sel.splice(idx,1);
+    btn.classList.remove('selected');
+  }
+  updateSetupUI();
+}
+
+function updateSetupUI() {
+  const cnt = state.selectedSubjects.length;
+  document.getElementById('selected-count').innerHTML = `Selected: <strong>${cnt}</strong>/3 optional subjects`;
+  const total = 60 + cnt * 40;
+  document.getElementById('stat-q').textContent = total;
+  document.getElementById('stat-m').textContent = total;
+  const name = document.getElementById('candidate-name').value.trim();
+  document.getElementById('begin-btn').disabled = (cnt !== 3 || !name);
+}
+
+document.getElementById('candidate-name').addEventListener('input', updateSetupUI);
+
+// ══════════════════════════════════════════════════════
+//  SHUFFLE
+// ══════════════════════════════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function prepareQuestion(rawQ) {
+  // shuffle options, track new correct index
+  const indices = [0,1,2,3];
+  const shuffledIdx = shuffle(indices);
+  const newCorrect = shuffledIdx.indexOf(rawQ.a);
+  return {
+    q: rawQ.q,
+    o: shuffledIdx.map(i => rawQ.o[i]),
+    a: newCorrect,
+    e: rawQ.e,
+  };
+}
+
+// ══════════════════════════════════════════════════════
+//  BEGIN EXAM
+// ══════════════════════════════════════════════════════
+function beginExam() {
+  const name = document.getElementById('candidate-name').value.trim();
+  if(!name) { alert('Please enter your name.'); return; }
+  if(state.selectedSubjects.length !== 3) { alert('Select exactly 3 subjects.'); return; }
+
+  state.candidateName = name;
+  document.getElementById('topbar-name').textContent = name;
+
+  // Build exam subjects
+  const allSubs = ['english', ...state.selectedSubjects];
+  state.examSubjects = allSubs.map(id => {
+    const meta = SUBJECT_META[id];
+    const pool = QB[id];
+    const needed = meta.count;
+    const picked = shuffle(pool).slice(0, Math.min(needed, pool.length));
+    // If pool smaller than needed, repeat (shouldn't happen now)
+    const questions = picked.map(prepareQuestion);
+    return { id, label: meta.label, questions };
+  });
+
+  state.answers = {};
+  state.flags = {};
+  state.currentSubject = 0;
+  state.currentQ = 0;
+
+  // Build tabs
+  const tabsEl = document.getElementById('subject-tabs');
+  tabsEl.innerHTML = '';
+  state.examSubjects.forEach((sub,i) => {
+    const t = document.createElement('div');
+    t.className = 'tab' + (i===0?' active':'');
+    t.id = `tab-${i}`;
+    t.innerHTML = `${sub.label}<span class="q-count">0/${sub.questions.length}</span>`;
+    t.onclick = () => jumpToSubject(i);
+    tabsEl.appendChild(t);
+  });
+
+  document.getElementById('setup-screen').style.display = 'none';
+  const ex = document.getElementById('exam-screen');
+  ex.style.display = 'flex';
+
+  renderQ();
+  startTimer();
+}
+
+// ══════════════════════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════════════════════
+function startTimer() {
+  state.secondsLeft = 7200;
+  updateTimerDisplay();
+  state.timerInterval = setInterval(() => {
+    state.secondsLeft--;
+    updateTimerDisplay();
+    if(state.secondsLeft <= 0) {
+      clearInterval(state.timerInterval);
+      submitExam();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const s = state.secondsLeft;
+  const h = String(Math.floor(s/3600)).padStart(2,'0');
+  const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+  const sec = String(s%60).padStart(2,'0');
+  const el = document.getElementById('timer');
+  el.textContent = `${h}:${m}:${sec}`;
+  el.className = 'timer-box';
+  if(s <= 300) el.classList.add('danger');
+  else if(s <= 900) el.classList.add('warning');
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER QUESTION
+// ══════════════════════════════════════════════════════
+function renderQ() {
+  const sub = state.examSubjects[state.currentSubject];
+  const q = sub.questions[state.currentQ];
+  const key = `${state.currentSubject}-${state.currentQ}`;
+
+  document.getElementById('q-num').textContent = state.currentQ + 1;
+  document.getElementById('q-total').textContent = sub.questions.length;
+  document.getElementById('q-text').textContent = q.q;
+
+  // Options
+  const optEl = document.getElementById('options');
+  optEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.o.forEach((opt, i) => {
+    const d = document.createElement('div');
+    d.className = 'option' + (state.answers[key] === i ? ' selected' : '');
+    d.innerHTML = `<div class="option-letter">${letters[i]}</div><div class="option-text">${opt}</div>`;
+    d.onclick = () => selectOption(i);
+    optEl.appendChild(d);
+  });
+
+  // Flag button
+  const fb = document.getElementById('flag-btn');
+  fb.className = 'flag-btn' + (state.flags[key] ? ' flagged' : '');
+  fb.textContent = state.flags[key] ? '⚑ Flagged' : '⚑ Flag';
+
+  // Prev/Next
+  document.getElementById('prev-btn').disabled = (state.currentSubject === 0 && state.currentQ === 0);
+  const isLastSub = state.currentSubject === state.examSubjects.length - 1;
+  const isLastQ = state.currentQ === sub.questions.length - 1;
+  document.getElementById('next-btn').disabled = isLastSub && isLastQ;
+
+  // Active tab
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === state.currentSubject));
+  document.getElementById('nav-subject-label').textContent = `NAVIGATOR — ${sub.label.toUpperCase()}`;
+
+  renderGrid();
+  updateProgress();
+}
+
+function selectOption(i) {
+  const key = `${state.currentSubject}-${state.currentQ}`;
+  state.answers[key] = i;
+  renderQ();
+}
+
+function toggleFlag() {
+  const key = `${state.currentSubject}-${state.currentQ}`;
+  state.flags[key] = !state.flags[key];
+  renderQ();
+}
+
+function renderGrid() {
+  const sub = state.examSubjects[state.currentSubject];
+  const grid = document.getElementById('q-grid');
+  grid.innerHTML = '';
+  sub.questions.forEach((_, i) => {
+    const key = `${state.currentSubject}-${i}`;
+    const d = document.createElement('div');
+    let cls = 'q-dot';
+    if(i === state.currentQ) cls += ' current';
+    else if(state.flags[key]) cls += ' flagged-dot';
+    else if(state.answers[key] !== undefined) cls += ' answered';
+    d.className = cls;
+    d.textContent = i+1;
+    d.onclick = () => { state.currentQ = i; renderQ(); };
+    grid.appendChild(d);
+  });
+}
+
+function updateProgress() {
+  let answered = 0, flagged = 0, total = 0;
+  state.examSubjects.forEach((sub, si) => {
+    total += sub.questions.length;
+    sub.questions.forEach((_, qi) => {
+      const key = `${si}-${qi}`;
+      if(state.answers[key] !== undefined) answered++;
+      if(state.flags[key]) flagged++;
+    });
+  });
+  document.getElementById('prog-answered').textContent = answered;
+  document.getElementById('prog-remaining').textContent = total - answered;
+  document.getElementById('prog-flagged').textContent = flagged;
+  document.getElementById('prog-total').textContent = total;
+
+  // Update tab counts
+  state.examSubjects.forEach((sub, si) => {
+    let cnt = 0;
+    sub.questions.forEach((_,qi) => { if(state.answers[`${si}-${qi}`] !== undefined) cnt++; });
+    const tab = document.getElementById(`tab-${si}`);
+    if(tab) tab.innerHTML = `${sub.label}<span class="q-count">${cnt}/${sub.questions.length}</span>`;
+  });
+}
+
+function jumpToSubject(i) {
+  state.currentSubject = i;
+  state.currentQ = 0;
+  renderQ();
+}
+
+function prevQ() {
+  if(state.currentQ > 0) {
+    state.currentQ--;
+  } else if(state.currentSubject > 0) {
+    state.currentSubject--;
+    state.currentQ = state.examSubjects[state.currentSubject].questions.length - 1;
+  }
+  renderQ();
+}
+
+function nextQ() {
+  const sub = state.examSubjects[state.currentSubject];
+  if(state.currentQ < sub.questions.length - 1) {
+    state.currentQ++;
+  } else if(state.currentSubject < state.examSubjects.length - 1) {
+    state.currentSubject++;
+    state.currentQ = 0;
+  }
+  renderQ();
+}
+
+// ══════════════════════════════════════════════════════
+//  SUBMIT
+// ══════════════════════════════════════════════════════
+function confirmSubmit() {
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+function submitExam() {
+  closeModal();
+  clearInterval(state.timerInterval);
+
+  // Calculate scores
+  let totalScore = 0, totalMax = 0;
+  const subjectResults = [];
+
+  state.examSubjects.forEach((sub, si) => {
+    let subScore = 0;
+    sub.questions.forEach((q, qi) => {
+      if(state.answers[`${si}-${qi}`] === q.a) subScore++;
+    });
+    totalScore += subScore;
+    totalMax += sub.questions.length;
+    subjectResults.push({ label: sub.label, score: subScore, max: sub.questions.length });
+  });
+
+  // Show results
+  document.getElementById('exam-screen').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'flex';
+
+  document.getElementById('res-name').textContent = state.candidateName;
+  document.getElementById('res-date').textContent = new Date().toLocaleDateString('en-NG', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('res-score').textContent = totalScore;
+  document.getElementById('res-out-of').textContent = `/ ${totalMax}`;
+  const pct = Math.round((totalScore/totalMax)*100);
+  document.getElementById('res-percent').textContent = `${pct}% — ${grade(pct)}`;
+
+  // Subject breakdown
+  const scoresEl = document.getElementById('subject-scores');
+  scoresEl.innerHTML = '';
+  subjectResults.forEach(r => {
+    const pct2 = Math.round((r.score/r.max)*100);
+    scoresEl.innerHTML += `
+      <div class="subj-score-row">
+        <div class="subj-score-name">${r.label}</div>
+        <div class="subj-bar-wrap"><div class="subj-bar" style="width:${pct2}%"></div></div>
+        <div class="subj-score-right"><strong>${r.score}</strong>/${r.max}</div>
+      </div>`;
+  });
+
+  // Corrections
+  const corrEl = document.getElementById('corrections-list');
+  corrEl.innerHTML = '';
+  let globalNum = 0;
+  state.examSubjects.forEach((sub, si) => {
+    sub.questions.forEach((q, qi) => {
+      globalNum++;
+      const answered = state.answers[`${si}-${qi}`];
+      const correct = q.a;
+      if(answered === correct) return; // only show wrong/skipped
+      corrEl.innerHTML += `
+        <div class="corr-card">
+          <div class="corr-q"><strong>Q${globalNum}</strong> · ${sub.label}</div>
+          <div class="corr-question">${q.q}</div>
+          <div class="corr-row">
+            <span class="corr-label ${answered === undefined ? 'skipped' : 'your'}">${answered === undefined ? 'SKIPPED' : 'YOUR ANSWER'}</span>
+            <div class="corr-ans">${answered === undefined ? '—' : q.o[answered]}</div>
+          </div>
+          <div class="corr-row">
+            <span class="corr-label correct">CORRECT</span>
+            <div class="corr-ans">${q.o[correct]}</div>
+          </div>
+          <div class="corr-explanation">💡 ${q.e}</div>
+        </div>`;
+    });
+  });
+
+  if(corrEl.innerHTML === '') {
+    corrEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--success);font-size:16px;font-weight:700;">🎉 Perfect Score! No corrections needed.</div>';
+  }
+}
+
+function grade(pct) {
+  if(pct >= 80) return 'Excellent';
+  if(pct >= 60) return 'Good';
+  if(pct >= 50) return 'Average';
+  if(pct >= 40) return 'Below Average';
+  return 'Poor — More Study Required';
+}
+
+function retake() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'flex';
+  state.selectedSubjects = [];
+  document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('candidate-name').value = '';
+  updateSetupUI();
+}
+</script>
+</body>
+</html>
